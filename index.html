@@ -67,7 +67,6 @@
               <textarea id="amLink" rows="3" placeholder="https://alightcreative.com/auth/..."></textarea>
               <p class="helper">Copy link dari email verifikasi, lalu paste di sini.</p>
             </div>
-            <!-- Tombol ini udah gua samain jadi hitam biar nyatu sama tema -->
             <button class="btn" id="amExecBtn" type="button">🚀 EKSEKUSI CUYY</button>
           </div>
           
@@ -103,12 +102,16 @@
     executeBtn.disabled=true;executeBtn.classList.add('busy');executeBtn.innerHTML='<span class="spinner" aria-hidden="true"></span> PROSES BRE…';showResult('success','PROSES BRE','Request sedang dikirim ke React API. Tunggu respons asli dari server.');
     try{
       const response=await fetch('/api/react',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,emojis})});
-      const payload=await response.json().catch(()=>({status:false,msg:'Server mengembalikan respons yang tidak valid.'}));
-      if(!response.ok||payload.status===false){showResult('error','EKSEKUSI GAGAL',payload.msg||'Permintaan gagal diproses. Respons asli API ditampilkan di bawah.',payload);}
+      const text = await response.text();
+      let payload;
+      try { payload = JSON.parse(text); } catch(e) { throw new Error("API React belum terpasang."); }
+      
+      if(!response.ok||payload.status===false){showResult('error','EKSEKUSI GAGAL',payload.msg||payload.message||'Permintaan gagal diproses.',payload);}
       else{showResult('success','SUCCESS · REACTION DIPROSES',payload.msg||'API mengembalikan status berhasil.',payload);}
-    }catch(e){showResult('error','GAGAL TERHUBUNG KE SERVER','Periksa deployment dan konfigurasi API. Coba lagi beberapa saat.');}
+    }catch(e){showResult('error','GAGAL TERHUBUNG KE SERVER', e.message || 'Periksa deployment dan konfigurasi API.');}
     finally{executeBtn.disabled=false;executeBtn.classList.remove('busy');executeBtn.textContent='EKSEKUSI CUY ↗'}
   });
+
 
   // ================= LOGIKA AM PREMIUM =================
   const amEmail = document.getElementById('amEmail');
@@ -121,72 +124,91 @@
 
   amSendBtn.addEventListener('click', async () => {
     const email = amEmail.value.trim();
-    if(!email || !email.includes('@')) return alert('Email tidak valid!');
+    if(!email || !email.includes('@')) {
+        amResult.className = 'result show error';
+        amResult.innerHTML = '<strong>!</strong> EMAIL TIDAK VALID';
+        return;
+    }
     
     amSendBtn.disabled = true;
     amSendBtn.textContent = 'MENGIRIM...';
-    amResult.className = 'result';
+    amResult.className = 'result show';
+    amResult.innerHTML = '<strong>⏳ MENGIRIM LINK...</strong>';
 
     try {
-      const res = await fetch('/api/am/send-link', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email})
+      // URL diubah ke /api/send-link
+      const res = await fetch('/api/send-link', { 
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify({email}) 
       });
-      const data = await res.json();
+      
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch(e) { throw new Error("API belum terpasang di Vercel"); }
       
       if(data.success) {
+        amResult.className = 'result';
         amStatusKirim.innerText = "✅ Link berhasil dikirim. Cek inbox/spam.";
         amStep2.style.display = 'block';
         amSendBtn.textContent = 'LINK TERKIRIM';
       } else {
-        alert("Gagal: " + (data.message || data.error || 'Server Error'));
+        amResult.className = 'result show error';
+        amResult.innerHTML = `<strong>!</strong> GAGAL KIRIM: ${data.message || data.error}`;
         amSendBtn.disabled = false;
         amSendBtn.textContent = 'KIRIM LINK';
       }
     } catch (e) {
-      alert("Error: " + e.message);
-      amSendBtn.disabled = false;
-      amSendBtn.textContent = 'KIRIM LINK';
+        amResult.className = 'result show error';
+        amResult.innerHTML = `<strong>!</strong> ERROR: ${e.message}`;
+        amSendBtn.disabled = false;
+        amSendBtn.textContent = 'KIRIM LINK';
     }
   });
 
   amExecBtn.addEventListener('click', async () => {
     const email = amEmail.value.trim();
     const magicLink = amLink.value.trim();
-    if(!magicLink) return alert('Link verifikasi belum diisi!');
+    if(!magicLink) {
+        amResult.className = 'result show error';
+        amResult.innerHTML = '<strong>!</strong> LINK VERIFIKASI KOSONG';
+        return;
+    }
     
     amExecBtn.disabled = true;
     amExecBtn.textContent = 'MEMPROSES...';
-    
     amResult.className = 'result show success';
-    amResult.innerHTML = '<strong><span class="result-mark">⏳</span>MEMPROSES PREMIUM</strong><div>Mohon tunggu, sedang memverifikasi link...</div>';
+    amResult.innerHTML = '<strong>⏳ MEMPROSES PREMIUM...</strong>';
 
     try {
-      const res = await fetch('/api/am/verify', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email, magicLink})
+      // URL diubah ke /api/verify
+      const res = await fetch('/api/verify', { 
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify({email, magicLink}) 
       });
-      const data = await res.json();
+      
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch(e) { throw new Error("API belum terpasang di Vercel"); }
       
       if(data.success) {
         amResult.className = 'result show success';
-        amResult.innerHTML = '<strong><span class="result-mark">✓</span>PREMIUM AKTIF!</strong><div>Alight Motion Premium berhasil diaktifkan.</div>';
+        amResult.innerHTML = '<strong>✓ PREMIUM AKTIF!</strong><div>Alight Motion Premium berhasil diaktifkan.</div>';
         amExecBtn.textContent = 'BERHASIL!';
       } else {
         amResult.className = 'result show error';
-        amResult.innerHTML = `<strong><span class="result-mark">!</span>GAGAL AKTIVASI</strong><div>${data.message || data.error || 'Link tidak valid / expired'}</div>`;
+        amResult.innerHTML = `<strong>!</strong> GAGAL: ${data.message || data.error}`;
         amExecBtn.disabled = false;
         amExecBtn.textContent = 'EKSEKUSI CUYY';
       }
     } catch (e) {
-      amResult.className = 'result show error';
-      amResult.innerHTML = `<strong><span class="result-mark">!</span>ERROR SERVER</strong><div>${e.message}</div>`;
-      amExecBtn.disabled = false;
-      amExecBtn.textContent = 'EKSEKUSI CUYY';
+        amResult.className = 'result show error';
+        amResult.innerHTML = `<strong>!</strong> ERROR: ${e.message}`;
+        amExecBtn.disabled = false;
+        amExecBtn.textContent = 'EKSEKUSI CUYY';
     }
   });
 </script>
 </body>
-  </html>
+            </html>
