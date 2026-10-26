@@ -113,7 +113,7 @@
   });
 
 
-  // ================= LOGIKA AM PREMIUM =================
+  // ================= LOGIKA AM PREMIUM (DENGAN LOCALSTORAGE) =================
   const amEmail = document.getElementById('amEmail');
   const amSendBtn = document.getElementById('amSendBtn');
   const amStep2 = document.getElementById('amStep2');
@@ -121,6 +121,18 @@
   const amLink = document.getElementById('amLink');
   const amExecBtn = document.getElementById('amExecBtn');
   const amResult = document.getElementById('amResult');
+
+  // Cek localStorage pas halaman dimuat
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedEmail = localStorage.getItem('am_email');
+    if (savedEmail) {
+      amEmail.value = savedEmail;
+      amStep2.style.display = 'block';
+      amStatusKirim.innerText = "✅ Sesi email tersimpan. Silakan paste link verifikasi.";
+      amSendBtn.textContent = 'GANTI EMAIL';
+      amSendBtn.style.opacity = '0.7';
+    }
+  });
 
   amSendBtn.addEventListener('click', async () => {
     const email = amEmail.value.trim();
@@ -136,7 +148,6 @@
     amResult.innerHTML = '<strong>⏳ MENGIRIM LINK...</strong>';
 
     try {
-      // PAKAI URL /api/send-link
       const res = await fetch('/api/send-link', { 
         method: 'POST', 
         headers: {'Content-Type': 'application/json'}, 
@@ -148,6 +159,9 @@
       try { data = JSON.parse(text); } catch(e) { throw new Error("API belum terpasang di Vercel"); }
       
       if(data.success) {
+        // Simpan email ke localStorage
+        localStorage.setItem('am_email', email);
+        
         amResult.className = 'result';
         amStatusKirim.innerText = "✅ Link berhasil dikirim. Cek inbox/spam.";
         amStep2.style.display = 'block';
@@ -181,7 +195,6 @@
     amResult.innerHTML = '<strong>⏳ MEMPROSES PREMIUM...</strong>';
 
     try {
-      // PAKAI URL /api/verify
       const res = await fetch('/api/verify', { 
         method: 'POST', 
         headers: {'Content-Type': 'application/json'}, 
@@ -196,6 +209,9 @@
         amResult.className = 'result show success';
         amResult.innerHTML = '<strong>✓ PREMIUM AKTIF!</strong><div>Alight Motion Premium berhasil diaktifkan.</div>';
         amExecBtn.textContent = 'BERHASIL!';
+        
+        // Hapus sesi email karena udah sukses
+        localStorage.removeItem('am_email');
       } else {
         amResult.className = 'result show error';
         amResult.innerHTML = `<strong>!</strong> GAGAL: ${data.message || data.error}`;
@@ -211,4 +227,4 @@
   });
 </script>
 </body>
-                                                                                               </html>
+</html>
