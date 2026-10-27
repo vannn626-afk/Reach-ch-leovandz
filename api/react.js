@@ -117,9 +117,9 @@ module.exports = async function handler(req, res) {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
+  "Content-Type": "application/json",
+  "x-api-key": apiKey,
+},
         body: JSON.stringify(req.body || {}),
       }
     );
