@@ -1,0 +1,7 @@
+{
+  "name": "leovandyz-reach-ch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LEOVANDYZ Reach CH tool",
+  "engines": { "node": ">=18.x" }
+}
