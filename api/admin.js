@@ -90,7 +90,7 @@ module.exports = async function handler(req, res) {
             }
           }),
           usedToday: Number(count || 0),
-          limit: Number(process.env.REACT_DAILY_LIMIT || 5),
+          metric: "request website hari ini; bukan sisa kuota provider",
         });
       }
 
