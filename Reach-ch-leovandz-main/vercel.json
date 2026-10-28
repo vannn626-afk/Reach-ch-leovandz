@@ -1,5 +1,0 @@
-{
-  "functions": {
-    "api/react.js": { "maxDuration": 30 }
-  }
-}
