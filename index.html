@@ -35,10 +35,12 @@
       <section id="reach">
         <div class="section-head"><h2>REACH CH<span style="background:#111111;color:#ffffff;padding:0 5px">.</span></h2><p>01 / REACTION EXECUTOR</p></div>
         <div class="tool-card">
-          <div class="step"><div class="num">01</div><h3>ISI LINK POSTINGAN CH KLEAN</h3></div>
+          <div class="step"><div class="num">01</div><h3>ISI NAMA KLEAN</h3></div>
+          <div class="field"><label for="reactName">NAMA UNTUK RIWAYAT</label><input id="reactName" type="text" maxlength="40" placeholder="Contoh: Leo" autocomplete="nickname" required><p class="helper">Nama ini akan dicatat di riwayat admin. Gunakan nama panggilan; nama tidak diverifikasi sebagai identitas.</p></div>
+          <div class="step"><div class="num">02</div><h3>ISI LINK POSTINGAN CH KLEAN</h3></div>
           <div class="field"><label for="postUrl">LINK POSTINGAN WHATSAPP CHANNEL</label><input id="postUrl" type="url" inputmode="url" placeholder="https://whatsapp.com/channel/..." autocomplete="url"><div class="verify" id="verifyStatus" aria-live="polite"><span class="check">?</span><span>Menunggu link untuk diverifikasi</span></div><p class="helper">Gunakan link postingan channel yang valid, bukan hanya link beranda WhatsApp.</p></div>
           <div class="divider"></div>
-          <div class="step"><div class="num">02</div><h3>INPUT EMOJI</h3></div>
+          <div class="step"><div class="num">03</div><h3>INPUT EMOJI</h3></div>
           <div class="field"><label for="emojis">EMOJI REACTION</label><input id="emojis" type="text" placeholder="Contoh: 🔥, ❤️, 🚀" autocomplete="off"><p class="helper">Boleh satu atau beberapa emoji. Pisahkan setiap emoji dengan koma.</p><div class="emoji-examples"><button class="chip" type="button" data-emoji="🔥">🔥 Fire</button><button class="chip" type="button" data-emoji="❤️">❤️ Love</button><button class="chip" type="button" data-emoji="👍">👍 Like</button><button class="chip" type="button" data-emoji="🚀">🚀 Rocket</button><button class="chip" type="button" data-emoji="😂">😂 LOL</button></div></div>
           <button class="btn" id="executeBtn" type="button">EKSEKUSI CUY ↗</button>
           <div class="result" id="result" role="status" aria-live="polite"></div>
@@ -82,11 +84,14 @@
   document.getElementById('year').textContent=new Date().getFullYear();
 
   // ================= LOGIKA REACH CH =================
+  const nameInput=document.getElementById('reactName');
   const urlInput=document.getElementById('postUrl');
   const emojiInput=document.getElementById('emojis');
   const verifyStatus=document.getElementById('verifyStatus');
   const executeBtn=document.getElementById('executeBtn');
   const result=document.getElementById('result');
+  try { nameInput.value = localStorage.getItem('react_display_name') || ''; } catch {}
+  nameInput.addEventListener('change',()=>{try{localStorage.setItem('react_display_name',nameInput.value.trim().slice(0,40))}catch{}});
 
   function validateChannelUrl(value){try{const u=new URL(value.trim());return (u.protocol==='https:'||u.protocol==='http:') && (u.hostname==='whatsapp.com'||u.hostname.endsWith('.whatsapp.com')||u.hostname==='www.whatsapp.com') && /\/channel\/[^/]+\/[^/]+/i.test(u.pathname)}catch{return false}}
   function setVerify(kind,message){verifyStatus.className='verify'+(kind?' '+kind:'');verifyStatus.innerHTML='<span class="check">'+(kind==='good'?'✓':kind==='bad'?'!':'?')+'</span><span>'+message+'</span>'}
@@ -94,14 +99,16 @@
   document.querySelectorAll('[data-emoji]').forEach(b=>b.addEventListener('click',()=>{const e=b.dataset.emoji;const current=emojiInput.value.trim();emojiInput.value=current?current+', '+e:e;emojiInput.focus()}));
   function showResult(kind,title,message,raw){result.className='result show '+kind;result.replaceChildren();const strong=document.createElement('strong');const mark=document.createElement('span');mark.className='result-mark';mark.textContent=kind==='success'?'✓':'!';strong.append(mark,document.createTextNode(title));const p=document.createElement('div');p.textContent=message;result.append(strong,p);if(raw!==undefined){const pre=document.createElement('pre');pre.setAttribute('aria-label','Respons asli API');pre.textContent=JSON.stringify(raw,null,2);result.append(pre)}}
   executeBtn.addEventListener('click',async()=>{
-    const url=urlInput.value.trim();const emojis=emojiInput.value.trim();result.className='result';
+    const name=nameInput.value.trim().replace(/\s+/g,' ').slice(0,40);const url=urlInput.value.trim();const emojis=emojiInput.value.trim();result.className='result';
+    if(!name){showResult('error','NAMA BELUM DIISI','Isi nama atau nama panggilan dulu agar masuk ke riwayat.');nameInput.focus();return}
+    try { localStorage.setItem('react_display_name',name); } catch {}
     if(!validateChannelUrl(url)){setVerify('bad','Link belum valid. Masukkan link postingan WhatsApp Channel.');urlInput.focus();showResult('error','LINK BELUM VALID','Pastikan link berupa URL postingan WhatsApp Channel dengan format yang benar.');return}
     setVerify('good','LINK TERVERIFIKASI · FORMAT VALID');
     if(!emojis){showResult('error','EMOJI BELUM DIISI','Masukkan minimal satu emoji reaction.');emojiInput.focus();return}
     if(emojis.split(',').some(x=>!x.trim())){showResult('error','FORMAT EMOJI BELUM TEPAT','Pisahkan emoji dengan koma, contohnya 🔥, ❤️, 🚀.');emojiInput.focus();return}
     executeBtn.disabled=true;executeBtn.classList.add('busy');executeBtn.innerHTML='<span class="spinner" aria-hidden="true"></span> PROSES BRE…';showResult('success','PROSES BRE','Request sedang dikirim ke React API. Tunggu respons asli dari server.');
     try{
-      const response=await fetch('/api/react',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,emojis})});
+      const response=await fetch('/api/react',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,url,emojis})});
       const text = await response.text();
       let payload;
       try { payload = JSON.parse(text); } catch(e) { throw new Error("API React belum terpasang."); }
@@ -382,13 +389,25 @@
   let password = "";
   let paused = false;
   let busy = false;
+  let liveRefreshTimer = null;
 
   $("admin-open").addEventListener("click", () => {
     $("admin-panel").hidden = false;
+    if (password) refreshAll();
+    if (liveRefreshTimer) clearInterval(liveRefreshTimer);
+    liveRefreshTimer = setInterval(() => {
+      if (!$ ("admin-panel").hidden && password && !busy) refreshAll();
+    }, 15000);
   });
+
+  function stopLiveRefresh() {
+    if (liveRefreshTimer) clearInterval(liveRefreshTimer);
+    liveRefreshTimer = null;
+  }
 
   $("admin-close").addEventListener("click", () => {
     $("admin-panel").hidden = true;
+    stopLiveRefresh();
   });
 
   async function api(url, options = {}) {
@@ -429,7 +448,7 @@
     const data = await api("/api/admin?action=history");
 
     $("admin-usage").textContent =
-      `Pemakaian website hari ini: ${data.usedToday}/${data.limit}`;
+      `Request dari website hari ini: ${data.usedToday} (bukan sisa kuota provider)`;
 
     const list = $("admin-history");
     list.replaceChildren();
@@ -444,8 +463,20 @@
     for (const item of data.history) {
       const li = document.createElement("li");
 
+      let waktu = "Waktu tidak tersedia";
+      const timestamp = item.time || item.at;
+      if (timestamp) {
+        const date = new Date(timestamp);
+        if (!Number.isNaN(date.getTime())) {
+          waktu = new Intl.DateTimeFormat("id-ID", {
+            timeZone: "Asia/Jakarta", day: "2-digit", month: "short", year: "numeric",
+            hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+          }).format(date) + " WIB";
+        }
+      }
       li.textContent = [
-        item.time || item.at || "-",
+        item.name ? `Nama: ${item.name}` : "Nama: (riwayat lama)",
+        waktu,
         item.status || "-",
         item.httpStatus ? `HTTP ${item.httpStatus}` : "",
         item.url ? `URL: ${item.url}` : ""
@@ -526,6 +557,7 @@
   $("admin-refresh").addEventListener("click", refreshAll);
 
   $("admin-logout").addEventListener("click", () => {
+    stopLiveRefresh();
     password = "";
     paused = false;
 
