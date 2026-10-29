@@ -2749,5 +2749,2358 @@
   });
 })();
 </script>
+  <!-- ============================================================================
+     LEOVANDYZ PLUG & PLAY ADD-ON: FULL WEB SFX + ARCADE OS (4 HD GAMES)
+     Tempelkan kode ini tepat sebelum tag </body> pada file index.html kamu.
+     ============================================================================ -->
+<style>
+  /* --- ARCADE HUB IN WORKSPACE --- */
+  .arcade-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    margin-top: 14px;
+  }
+  .arcade-item-card {
+    border: var(--border-width) var(--border-style) var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--bg-elevated);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .arcade-item-card:hover {
+    transform: translateY(-4px);
+  }
+  .arcade-thumb {
+    height: 130px;
+    border: var(--border-width) var(--border-style) var(--line);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 52px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+  }
+  .arcade-badge-hd {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #fde047;
+    color: #000;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 7px;
+    border: 1.5px solid #000;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+  .arcade-item-card h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+  }
+  .arcade-item-card p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ink-secondary);
+    line-height: 1.5;
+  }
+
+  /* --- DEDICATED FULLSCREEN GAME OS OVERLAY --- */
+  #leo-arcade-os {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: #07090e;
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    user-select: none;
+    overflow: hidden;
+  }
+  #leo-arcade-os[hidden] {
+    display: none !important;
+  }
+  .gos-header {
+    height: 54px;
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 2px solid #1e293b;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-shrink: 0;
+    z-index: 30;
+  }
+  .gos-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+  .gos-pill {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 99px;
+    background: #1e293b;
+    color: #38bdf8;
+    border: 1px solid #334155;
+  }
+  .gos-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gos-btn {
+    background: #1e293b;
+    color: #f8fafc;
+    border: 1.5px solid #475569;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font: 700 12px 'Space Grotesk', sans-serif;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.12s;
+  }
+  .gos-btn:hover { background: #334155; }
+  .gos-btn.danger { background: #dc2626; border-color: #f87171; }
+  .gos-btn.primary { background: #eab308; color: #000; border-color: #fef08a; }
+  .gos-viewport {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .gos-screen {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .gos-screen.active {
+    display: flex;
+  }
+
+  /* ==========================================================================
+     GAME 1: POKERAN TONGKRONGAN FULL HD TABLE & AUTHENTIC VECTOR CARDS
+     ========================================================================== */
+  .pk-arena {
+    flex: 1;
+    background:
+      radial-gradient(ellipse at center, #14532d 0%, #062e16 65%, #02140a 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 16px;
+    overflow: hidden;
+  }
+  .pk-arena::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border: 2px solid rgba(250, 204, 21, 0.22);
+    border-radius: 28px;
+    pointer-events: none;
+  }
+  .pk-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    z-index: 10;
+  }
+  .pk-seat {
+    background: rgba(15, 23, 42, 0.86);
+    border: 2px solid #334155;
+    border-radius: 12px;
+    padding: 8px 12px;
+    min-width: 118px;
+    text-align: center;
+    position: relative;
+    transition: all 0.2s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+  }
+  .pk-seat.active-turn {
+    border-color: #facc15;
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.35), 0 8px 24px rgba(0,0,0,0.6);
+    transform: translateY(-2px);
+  }
+  .pk-seat.finished {
+    border-color: #22c55e;
+    background: rgba(20, 83, 45, 0.85);
+  }
+  .pk-seat-name {
+    font-size: 12px;
+    font-weight: 800;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .pk-seat-count {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 3px;
+    font-weight: 700;
+  }
+  .pk-seat-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    background: #334155;
+    color: #facc15;
+  }
+
+  /* Center Table Trick & 3-Collection Area */
+  .pk-table-center {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    min-height: 190px;
+  }
+  .pk-status-banner {
+    background: rgba(0, 0, 0, 0.72);
+    border: 1.5px solid rgba(250, 204, 21, 0.5);
+    color: #fef08a;
+    padding: 6px 16px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+    max-width: 92%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+  .pk-trick-zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 132px;
+    position: relative;
+    padding: 8px;
+  }
+  .pk-combo-tag {
+    position: absolute;
+    bottom: -10px;
+    background: #eab308;
+    color: #000;
+    font-weight: 900;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 2px solid #000;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    z-index: 30;
+  }
+
+  /* REALISTIC HD VECTOR PLAYING CARD */
+  .hd-card {
+    width: 82px;
+    height: 118px;
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 8px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.45), inset 0 0 0 1px #ffffff;
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.16s cubic-bezier(0.2, 0.9, 0.3, 1.2), box-shadow 0.16s ease, margin 0.16s ease;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .hd-card.suit-red { color: #dc2626; }
+  .hd-card.suit-black { color: #0f172a; }
+  .hd-card.selected {
+    transform: translateY(-22px) scale(1.05) !important;
+    box-shadow: 0 0 0 3px #facc15, 0 14px 26px rgba(0,0,0,0.65);
+    z-index: 40 !important;
+  }
+  .hd-card-corner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.92;
+    font-weight: 800;
+    font-size: 14px;
+    width: 18px;
+    z-index: 2;
+  }
+  .hd-card-corner span:last-child {
+    font-size: 13px;
+    margin-top: 1px;
+  }
+  .hd-card-corner.bot {
+    align-self: flex-end;
+    transform: rotate(180deg);
+  }
+  .hd-card-art {
+    position: absolute;
+    inset: 14px 16px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(248, 250, 252, 0.5);
+  }
+  .hd-card-art svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* Pips layout for 2-10 */
+  .hd-pip-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    place-items: center;
+    padding: 2px;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .hd-pip-grid .pip.flip { transform: rotate(180deg); }
+
+  /* Player Hand Fan & Controls */
+  .pk-bottom-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+  }
+  .pk-action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .pk-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 2px solid #000;
+    font: 800 13px 'Space Grotesk', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #000;
+    transition: transform 0.1s, box-shadow 0.1s, opacity 0.15s;
+    text-transform: uppercase;
+  }
+  .pk-btn:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #000;
+  }
+  .pk-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .pk-btn.play { background: #facc15; color: #000; }
+  .pk-btn.pass { background: #ef4444; color: #fff; }
+  .pk-btn.hint { background: #38bdf8; color: #000; }
+  .pk-btn.sort { background: #e2e8f0; color: #0f172a; }
+
+  .pk-hand-scroll {
+    width: 100%;
+    overflow-x: auto;
+    padding: 26px 16px 8px;
+    display: flex;
+    justify-content: center;
+  }
+  .pk-hand-cards {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .pk-hand-cards .hd-card:not(:first-child) {
+    margin-left: -26px;
+  }
+
+  /* Pass & Play Privacy Curtain + Online Lobby Modal */
+  .pk-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.92);
+    backdrop-filter: blur(8px);
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .pk-modal-overlay[hidden] { display: none !important; }
+  .pk-modal-box {
+    background: #0f172a;
+    border: 2px solid #facc15;
+    border-radius: 16px;
+    padding: 22px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  }
+
+  /* ==========================================================================
+     GAME 2, 3, 4 STYLES (DRIFT RACER, TIC-TAC-TOE, CIPHER PUZZLE)
+     ========================================================================== */
+  .racer-wrap, .ttt-wrap, .cipher-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  #racerCanvas {
+    border: 2px solid #38bdf8;
+    border-radius: 14px;
+    box-shadow: 0 0 35px rgba(56, 189, 248, 0.25);
+    max-height: calc(100vh - 155px);
+    max-width: 100%;
+    background: #090d16;
+    touch-action: none;
+  }
+  .racer-touch-bar {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 420px;
+    justify-content: center;
+  }
+  .racer-touch-btn {
+    flex: 1;
+    padding: 14px;
+    background: rgba(30, 41, 59, 0.9);
+    border: 2px solid #38bdf8;
+    color: #fff;
+    border-radius: 10px;
+    font: 800 14px 'Space Grotesk', sans-serif;
+    touch-action: manipulation;
+  }
+  .racer-touch-btn.nitro {
+    background: #f59e0b;
+    color: #000;
+    border-color: #fef08a;
+  }
+
+  /* Tic Tac Toe Grid */
+  .ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: min(340px, 88vw);
+    height: min(340px, 88vw);
+    margin: 16px 0;
+  }
+  .ttt-cell {
+    background: #1e293b;
+    border: 2px solid #334155;
+    border-radius: 14px;
+    font-size: 52px;
+    font-weight: 900;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .ttt-cell:hover { border-color: #38bdf8; background: #26354d; }
+  .ttt-cell.x-mark { color: #38bdf8; text-shadow: 0 0 16px rgba(56,189,248,0.7); }
+  .ttt-cell.o-mark { color: #f43f5e; text-shadow: 0 0 16px rgba(244,63,94,0.7); }
+  .ttt-cell.win-cell { background: rgba(34, 197, 94, 0.28); border-color: #22c55e; }
+
+  /* Cipher Matrix Puzzle Grid */
+  .cipher-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: min(340px, 88vw);
+    height: min(340px, 88vw);
+    margin: 14px 0;
+  }
+  .cipher-tile {
+    background: #1e293b;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: all 0.16s ease;
+  }
+  .cipher-tile.lit {
+    background: rgba(16, 185, 129, 0.22);
+    border-color: #10b981;
+    color: #6ee7b7;
+    box-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
+  }
+
+  @media (max-width: 640px) {
+    .hd-card { width: 68px; height: 98px; padding: 4px; }
+    .hd-card-corner { font-size: 12px; width: 15px; }
+    .hd-card-art { inset: 12px 13px; }
+    .pk-hand-cards .hd-card:not(:first-child) { margin-left: -22px; }
+    .pk-seat { min-width: 92px; padding: 6px 8px; }
+  }
+</style>
+
+<!-- ================= FULLSCREEN ARCADE OS CONTAINER ================= -->
+<section id="leo-arcade-os" hidden aria-label="Konsol Game Full HD">
+  <header class="gos-header">
+    <div class="gos-title">
+      <span>🎮 LEOVANDYZ ARCADE OS</span>
+      <span class="gos-pill" id="gosActiveGameName">POKERAN HD</span>
+    </div>
+    <div class="gos-controls">
+      <button class="gos-btn" type="button" id="gosSfxBtn">🔊 SFX</button>
+      <button class="gos-btn danger" type="button" id="gosCloseBtn">✕ KELUAR GAME</button>
+    </div>
+  </header>
+
+  <div class="gos-viewport">
+    <!-- ==================== SCREEN 1: POKERAN TONGKRONGAN HD ==================== -->
+    <div class="gos-screen active" id="screen-poker">
+      <div class="pk-arena">
+        <!-- Top Opponents / Players Row -->
+        <div class="pk-top-row">
+          <div class="pk-seat" id="pkSeat1">
+            <div class="pk-seat-name"><span>🤖</span> <span id="pkName1">Bot Kiri</span></div>
+            <div class="pk-seat-count"><span id="pkCount1">13</span> Kartu</div>
+            <div class="pk-seat-badge" id="pkAction1">Siap</div>
+          </div>
+          <div class="pk-seat" id="pkSeat2">
+            <div class="pk-seat-name"><span>🤖</span> <span id="pkName2">Bot Atas</span></div>
+            <div class="pk-seat-count"><span id="pkCount2">13</span> Kartu</div>
+            <div class="pk-seat-badge" id="pkAction2">Siap</div>
+          </div>
+          <div class="pk-seat" id="pkSeat3">
+            <div class="pk-seat-name"><span>🤖</span> <span id="pkName3">Bot Kanan</span></div>
+            <div class="pk-seat-count"><span id="pkCount3">13</span> Kartu</div>
+            <div class="pk-seat-badge" id="pkAction3">Siap</div>
+          </div>
+        </div>
+
+        <!-- Center Table Trick & Status -->
+        <div class="pk-table-center">
+          <div class="pk-status-banner" id="pkStatusBanner">
+            Pilih Mode Permainan atau klik Kumpul Kartu 3 untuk memulai!
+          </div>
+          <div class="pk-trick-zone" id="pkTrickZone"></div>
+        </div>
+
+        <!-- Player Controls & Hand -->
+        <div class="pk-bottom-zone">
+          <div class="pk-action-bar">
+            <button class="pk-btn sort" type="button" id="pkModeBtn">👥 Mode: Vs Bot</button>
+            <button class="pk-btn sort" type="button" id="pkOnlineBtn">🌐 Mabar Room</button>
+            <button class="pk-btn play" type="button" id="pkCollect3Btn" style="display:none;">🎴 KUMPUL SEMUA ANGKA 3!</button>
+            <button class="pk-btn play" type="button" id="pkPlayBtn">🔥 BANTING KARTU</button>
+            <button class="pk-btn hint" type="button" id="pkHintBtn">💡 SARAN</button>
+            <button class="pk-btn pass" type="button" id="pkPassBtn">⏭️ LEWAT (PASS)</button>
+            <button class="pk-btn sort" type="button" id="pkNewMatchBtn">🔄 BAGI ULANG</button>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:#fef08a;" id="pkMyLabel">
+            Tangan Kamu (Pemain 1) · Klik kartu untuk memilih kombinasi (Solo / Per / Tris / Hos / Seri / Wanted)
+          </div>
+          <div class="pk-hand-scroll">
+            <div class="pk-hand-cards" id="pkPlayerHand"></div>
+          </div>
+        </div>
+
+        <!-- Pass & Play Curtain / Online Room Modal -->
+        <div class="pk-modal-overlay" id="pkModalOverlay" hidden>
+          <div class="pk-modal-box" id="pkModalContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SCREEN 2: NEON VELOCITY HD DRIFT RACER ==================== -->
+    <div class="gos-screen" id="screen-racer">
+      <div class="racer-wrap">
+        <div style="display:flex;gap:16px;margin-bottom:8px;font-weight:800;font-size:13px;">
+          <span>🏁 SKOR: <strong id="racerScore" style="color:#38bdf8;">0</strong></span>
+          <span>⚡ SPEED: <strong id="racerSpeed" style="color:#facc15;">120</strong> KM/H</span>
+          <span>🏆 BEST: <strong id="racerBest" style="color:#22c55e;">0</strong></span>
+        </div>
+        <canvas id="racerCanvas" width="420" height="560"></canvas>
+        <div class="racer-touch-bar">
+          <button class="racer-touch-btn" type="button" id="racerLeftBtn">◀ BELOK KIRI</button>
+          <button class="racer-touch-btn nitro" type="button" id="racerNitroBtn">🔥 NITRO</button>
+          <button class="racer-touch-btn" type="button" id="racerRightBtn">BELOK KANAN ▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SCREEN 3: NEON TIC-TAC-TOE ARENA ==================== -->
+    <div class="gos-screen" id="screen-ttt">
+      <div class="ttt-wrap">
+        <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;justify-content:center;">
+          <button class="gos-btn primary" type="button" id="tttModeBotBtn">🤖 Lawan Bot Pintar</button>
+          <button class="gos-btn" type="button" id="tttMode2PBtn">👥 Mabar 2 Pemain (Gantian)</button>
+          <button class="gos-btn" type="button" id="tttResetBtn">🔄 Reset Papan</button>
+        </div>
+        <div style="font-size:15px;font-weight:800;color:#fef08a;" id="tttStatusText">Giliran Kamu (X)</div>
+        <div class="ttt-board" id="tttBoard"></div>
+        <div style="display:flex;gap:20px;font-weight:800;font-size:13px;">
+          <span>❌ X MENANG: <strong id="tttScoreX" style="color:#38bdf8;">0</strong></span>
+          <span>🤝 SERI: <strong id="tttScoreDraw">0</strong></span>
+          <span>⭕ O MENANG: <strong id="tttScoreO" style="color:#f43f5e;">0</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SCREEN 4: CIPHER MATRIX TEKA-TEKI SERU ==================== -->
+    <div class="gos-screen" id="screen-cipher">
+      <div class="cipher-wrap">
+        <div style="text-align:center;max-width:420px;">
+          <h3 style="margin:0 0 4px;color:#38bdf8;">🧩 QUANTUM CIPHER LOCK</h3>
+          <p style="margin:0 0 10px;font-size:12px;color:#94a3b8;">
+            Teka-teki Logika Sirkuit: Klik sel untuk membalik status daya dirinya dan tetangga sebelahnya (Atas/Bawah/Kiri/Kanan). Nyalakan <strong>SEMUA 16 NODE HIJAU</strong> untuk membobol brankas!
+          </p>
+        </div>
+        <div style="display:flex;gap:16px;font-weight:800;font-size:13px;">
+          <span>🔐 LEVEL: <strong id="cipherLevel" style="color:#facc15;">1</strong></span>
+          <span>👣 LANGKAH: <strong id="cipherMoves" style="color:#38bdf8;">0</strong></span>
+          <button class="gos-btn" type="button" id="cipherNewBtn">🔄 Acak Level Baru</button>
+        </div>
+        <div class="cipher-grid" id="cipherGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ==========================================================================
+     1. WEB AUDIO SYNTHESIZER ENGINE (WEB UI + GAME SFX)
+     ========================================================================== */
+  const LeoSFX = {
+    ctx: null,
+    enabled: localStorage.getItem("leovandyz_sfx") !== "0",
+    init() {
+      if (!this.ctx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) this.ctx = new AC();
+      }
+      if (this.ctx && this.ctx.state === "suspended") {
+        this.ctx.resume().catch(() => {});
+      }
+    },
+    tone(type, freq, dur, vol = 0.08, slideTo = null) {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+      if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, now + dur);
+      gain.gain.setValueAtTime(vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + dur);
+    },
+    click() { this.tone("triangle", 760, 0.045, 0.06, 420); },
+    chip() { this.tone("sine", 920, 0.06, 0.07, 1180); },
+    theme() {
+      this.tone("sine", 440, 0.08, 0.06, 660);
+      setTimeout(() => this.tone("sine", 660, 0.12, 0.06, 880), 60);
+    },
+    deal() {
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => this.tone("triangle", 320 + i * 45, 0.05, 0.06, 180), i * 45);
+      }
+    },
+    slap() {
+      this.tone("square", 160, 0.11, 0.16, 55);
+      setTimeout(() => this.tone("triangle", 420, 0.07, 0.1, 220), 30);
+    },
+    bomb() {
+      this.tone("sawtooth", 220, 0.38, 0.22, 42);
+      setTimeout(() => this.tone("square", 520, 0.25, 0.18, 880), 120);
+      setTimeout(() => this.tone("sine", 1046, 0.4, 0.2), 260);
+    },
+    pass() { this.tone("sine", 260, 0.09, 0.08, 170); },
+    win() {
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
+        setTimeout(() => this.tone("triangle", f, 0.18, 0.12), idx * 95);
+      });
+    },
+    error() {
+      this.tone("sawtooth", 180, 0.14, 0.1, 110);
+      setTimeout(() => this.tone("sawtooth", 140, 0.18, 0.1, 95), 110);
+    },
+    engine(speed) {
+      this.tone("sawtooth", 65 + speed * 0.45, 0.08, 0.03);
+    }
+  };
+
+  /* ==========================================================================
+     2. INJECT AUDIO BUTTON & ARCADE ZONE INTO EXISTING UI NON-DESTRUCTIVELY
+     ========================================================================== */
+  const topbarNav = document.querySelector(".topbar .nav");
+  const sfxTopBtn = document.createElement("button");
+  sfxTopBtn.type = "button";
+  sfxTopBtn.className = "topbar-btn";
+  const gosSfxBtn = document.getElementById("gosSfxBtn");
+
+  function syncSfxLabels() {
+    const txt = LeoSFX.enabled ? "🔊 SFX: ON" : "🔇 SFX: OFF";
+    sfxTopBtn.textContent = txt;
+    if (gosSfxBtn) gosSfxBtn.textContent = txt;
+  }
+  syncSfxLabels();
+
+  function toggleSfx() {
+    LeoSFX.enabled = !LeoSFX.enabled;
+    try { localStorage.setItem("leovandyz_sfx", LeoSFX.enabled ? "1" : "0"); } catch {}
+    syncSfxLabels();
+    if (LeoSFX.enabled) LeoSFX.win();
+  }
+  sfxTopBtn.addEventListener("click", toggleSfx);
+  if (gosSfxBtn) gosSfxBtn.addEventListener("click", toggleSfx);
+  if (topbarNav) topbarNav.prepend(sfxTopBtn);
+
+  // Global UI SFX Hooks (Buttons, Chips, Theme Selector, Verify, Results)
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button, a, .metric-card");
+    if (!btn) return;
+    if (btn.hasAttribute("data-emoji")) { LeoSFX.chip(); return; }
+    if (btn.hasAttribute("data-theme-select") || btn.id === "resetThemeNormalBtn") { LeoSFX.theme(); return; }
+    LeoSFX.click();
+  });
+
+  // Watch #result and #amResult for API feedback sounds
+  ["result", "amResult"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    new MutationObserver(() => {
+      if (el.classList.contains("error")) LeoSFX.error();
+      else if (el.classList.contains("success")) LeoSFX.win();
+    }).observe(el, { attributes: true, childList: true });
+  });
+
+  // Upgrade "More to Come" section into the Full HD Arcade Hub + add Sidebar/Hero triggers
+  const comingSection = document.querySelector('[data-section-id="coming"]');
+  if (comingSection) {
+    comingSection.innerHTML = `
+      <div class="section-head">
+        <h2 id="comingTitle">ARCADE ZONE<span class="section-dot-badge">.</span></h2>
+        <p>03 / FULL HD MINIGAMES & AUDIO</p>
+      </div>
+      <div class="arcade-hub-grid">
+        <div class="arcade-item-card">
+          <div>
+            <div class="arcade-thumb" style="background:linear-gradient(135deg,#064e3b,#15803d);">
+              <span class="arcade-badge-hd">MABAR + BOT</span>
+              <span>🃏👑</span>
+            </div>
+            <h3 style="margin-top:12px;">LEO Pokeran Tongkrongan</h3>
+            <p>Kartu Remi Full HD (Raja J/Q/K Asli). Aturan Kumpul 3, Muter Kanan, Per, Tris, Hos, Seri, Poker (2), Bom Wanted, Warisan & Mabar!</p>
+          </div>
+          <button class="btn" type="button" data-launch-game="poker">▶ MAIN POKERAN HD</button>
+        </div>
+
+        <div class="arcade-item-card">
+          <div>
+            <div class="arcade-thumb" style="background:linear-gradient(135deg,#0f172a,#0284c7);">
+              <span class="arcade-badge-hd">60 FPS HD</span>
+              <span>🏎️💨</span>
+            </div>
+            <h3 style="margin-top:12px;">Neon Velocity: Drift Racer</h3>
+            <p>Balap mobil jalanan Full HD dengan physics drifting, partikel asap ban, api Nitro Boost, dan suara deru mesin real-time.</p>
+          </div>
+          <button class="btn" type="button" data-launch-game="racer">▶ MAIN BALAP MOBIL</button>
+        </div>
+
+        <div class="arcade-item-card">
+          <div>
+            <div class="arcade-thumb" style="background:linear-gradient(135deg,#311042,#e11d48);">
+              <span class="arcade-badge-hd">VS BOT / 2P</span>
+              <span>❌⚡⭕</span>
+            </div>
+            <h3 style="margin-top:12px;">Neon Tic-Tac-Toe Arena</h3>
+            <p>Duel taktis lawan Bot Master (Minimax AI) atau Mabar gantian klik bareng teman di 1 layar dengan efek laser neon.</p>
+          </div>
+          <button class="btn" type="button" data-launch-game="ttt">▶ MAIN TIC-TAC-TOE</button>
+        </div>
+
+        <div class="arcade-item-card">
+          <div>
+            <div class="arcade-thumb" style="background:linear-gradient(135deg,#1e1b4b,#4f46e5);">
+              <span class="arcade-badge-hd">PUZZLE IQ</span>
+              <span>🧩⚡</span>
+            </div>
+            <h3 style="margin-top:12px;">Quantum Cipher Matrix</h3>
+            <p>Teka-teki logika meretas sirkuit matriks neon. Nyalakan seluruh 16 simpul daya dengan langkah sesedikit mungkin!</p>
+          </div>
+          <button class="btn" type="button" data-launch-game="cipher">▶ MAIN TEKA-TEKI</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // Update sidebar & hero labels so user immediately sees Arcade Zone
+  const comingSidebarBtn = document.querySelector('.sidebar-link[data-view-target="coming"]');
+  if (comingSidebarBtn) {
+    comingSidebarBtn.innerHTML = `<span class="nav-icon">🎮</span><span>Arcade Zone (4 Game)</span><span class="nav-badge">HD</span>`;
+  }
+  const heroActions = document.querySelector(".hero-quick-actions");
+  if (heroActions) {
+    const arcadeHeroBtn = document.createElement("a");
+    arcadeHeroBtn.className = "hero-pill-btn";
+    arcadeHeroBtn.href = "#comingTitle";
+    arcadeHeroBtn.innerHTML = "🎮 Main Game (Pokeran & Balap HD)";
+    arcadeHeroBtn.addEventListener("click", () => {
+      if (comingSidebarBtn) comingSidebarBtn.click();
+    });
+    heroActions.prepend(arcadeHeroBtn);
+  }
+
+  /* ==========================================================================
+     3. FULLSCREEN ARCADE OS ROUTER
+     ========================================================================== */
+  const arcadeOS = document.getElementById("leo-arcade-os");
+  const gosActiveGameName = document.getElementById("gosActiveGameName");
+  let activeGameLoop = null;
+
+  function openGameOS(gameId) {
+    arcadeOS.hidden = false;
+    document.body.style.overflow = "hidden";
+    document.querySelectorAll(".gos-screen").forEach((s) => s.classList.remove("active"));
+    const target = document.getElementById("screen-" + gameId);
+    if (target) target.classList.add("active");
+
+    const titles = {
+      poker: "🃏 LEO POKERAN TONGKRONGAN HD",
+      racer: "🏎️ NEON VELOCITY DRIFT HD",
+      ttt: "❌⭕ TIC-TAC-TOE ARENA",
+      cipher: "🧩 QUANTUM CIPHER PUZZLE"
+    };
+    gosActiveGameName.textContent = titles[gameId] || "ARCADE";
+
+    if (gameId === "poker") PokerGame.initMatch();
+    if (gameId === "racer") RacerGame.start(); else RacerGame.stop();
+    if (gameId === "ttt") TTTGame.init();
+    if (gameId === "cipher") CipherGame.init(1);
+  }
+
+  document.querySelectorAll("[data-launch-game]").forEach((btn) => {
+    btn.addEventListener("click", () => openGameOS(btn.getAttribute("data-launch-game")));
+  });
+
+  document.getElementById("gosCloseBtn").addEventListener("click", () => {
+    arcadeOS.hidden = true;
+    document.body.style.overflow = "";
+    RacerGame.stop();
+  });
+
+  /* ==========================================================================
+     4. AUTHENTIC 100% REAL PLAYING CARD SVG ART GENERATOR (J, Q, K, A, 2-10)
+     ========================================================================== */
+  const SUIT_META = {
+    D: { sym: "♦", cls: "suit-red", order: 0, name: "Wajik", color: "#dc2626" },
+    C: { sym: "♣", cls: "suit-black", order: 1, name: "Keriting", color: "#0f172a" },
+    H: { sym: "♥", cls: "suit-red", order: 2, name: "Hati", color: "#dc2626" },
+    S: { sym: "♠", cls: "suit-black", order: 3, name: "Sekop", color: "#0f172a" }
+  };
+  const RANKS = ["3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "2"];
+
+  function buildCourtSvg(rank, suitKey) {
+    const s = SUIT_META[suitKey];
+    const col = s.color;
+    const gold = "#eab308";
+    const royal = suitKey === "D" || suitKey === "H" ? "#991b1b" : "#1e293b";
+    const crown = rank === "K"
+      ? `<polygon points="14,18 20,8 26,15 32,7 38,15 44,8 50,18" fill="${gold}" stroke="#000" stroke-width="1.2"/>`
+      : rank === "Q"
+      ? `<path d="M16,18 Q24,7 32,16 Q40,7 48,18 Z" fill="${gold}" stroke="#000" stroke-width="1.2"/><circle cx="32" cy="10" r="2.5" fill="#dc2626"/>`
+      : `<path d="M15,18 L49,18 L45,10 L19,10 Z" fill="${royal}" stroke="${gold}" stroke-width="1.5"/>`;
+
+    const weaponOrEmblem = rank === "K"
+      ? `<path d="M48,22 L56,10 M52,14 L56,18" stroke="${gold}" stroke-width="2.2" stroke-linecap="round"/>`
+      : rank === "Q"
+      ? `<circle cx="49" cy="30" r="4.5" fill="#e11d48" stroke="${gold}" stroke-width="1.2"/>`
+      : `<path d="M14,20 L14,42 M10,25 L18,25" stroke="#64748b" stroke-width="2"/>`;
+
+    return `
+      <svg viewBox="0 0 64 90" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="60" height="86" rx="3" fill="#fefce8" stroke="${gold}" stroke-width="1.2"/>
+        <!-- Top Half Royal Figure -->
+        <g>
+          <path d="M12,45 C14,31 50,31 52,45 Z" fill="${royal}" stroke="#000" stroke-width="1.2"/>
+          <path d="M20,34 L32,44 L44,34" fill="none" stroke="${gold}" stroke-width="2"/>
+          <circle cx="32" cy="24" r="8.5" fill="#fde68a" stroke="#000" stroke-width="1.2"/>
+          <circle cx="29" cy="23" r="1.1" fill="#000"/><circle cx="35" cy="23" r="1.1" fill="#000"/>
+          <path d="M29,27 Q32,29 35,27" fill="none" stroke="#000" stroke-width="1.1"/>
+          ${crown}
+          ${weaponOrEmblem}
+          <text x="10" y="16" fill="${col}" font-size="11" font-weight="900">${s.sym}</text>
+        </g>
+        <!-- Center Divider Line -->
+        <line x1="4" y1="45" x2="60" y2="45" stroke="${gold}" stroke-width="1.2"/>
+        <!-- Mirrored Bottom Half (Double-Headed Court Card) -->
+        <g transform="rotate(180 32 45)">
+          <path d="M12,45 C14,31 50,31 52,45 Z" fill="${royal}" stroke="#000" stroke-width="1.2"/>
+          <path d="M20,34 L32,44 L44,34" fill="none" stroke="${gold}" stroke-width="2"/>
+          <circle cx="32" cy="24" r="8.5" fill="#fde68a" stroke="#000" stroke-width="1.2"/>
+          <circle cx="29" cy="23" r="1.1" fill="#000"/><circle cx="35" cy="23" r="1.1" fill="#000"/>
+          <path d="M29,27 Q32,29 35,27" fill="none" stroke="#000" stroke-width="1.1"/>
+          ${crown}
+          ${weaponOrEmblem}
+          <text x="10" y="16" fill="${col}" font-size="11" font-weight="900">${s.sym}</text>
+        </g>
+      </svg>`;
+  }
+
+  // Pip positions on a 3x5 grid (indices 0..14) for authentic 2..10 cards
+  const PIP_MAP = {
+    "2": [1, 13],
+    "3": [1, 7, 13],
+    "4": [0, 2, 12, 14],
+    "5": [0, 2, 7, 12, 14],
+    "6": [0, 2, 6, 8, 12, 14],
+    "7": [0, 2, 4, 6, 8, 12, 14],
+    "8": [0, 2, 4, 6, 8, 10, 12, 14],
+    "9": [0, 2, 3, 5, 7, 9, 11, 12, 14],
+    "10": [0, 2, 3, 4, 5, 9, 10, 11, 12, 14]
+  };
+
+  function createCardDOM(card) {
+    const s = SUIT_META[card.suit];
+    const el = document.createElement("div");
+    el.className = `hd-card ${s.cls}`;
+    el.dataset.id = card.id;
+
+    let centerHTML = "";
+    if (card.rank === "J" || card.rank === "Q" || card.rank === "K") {
+      centerHTML = buildCourtSvg(card.rank, card.suit);
+    } else if (card.rank === "A") {
+      centerHTML = `
+        <div style="display:grid;place-items:center;width:100%;height:100%;position:relative;">
+          <div style="font-size:40px;line-height:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.2));">${s.sym}</div>
+        </div>`;
+    } else {
+      const activeCells = PIP_MAP[card.rank] || [7];
+      let cells = "";
+      for (let i = 0; i < 15; i++) {
+        if (activeCells.includes(i)) {
+          const flip = i >= 9 ? "flip" : "";
+          cells += `<span class="pip ${flip}">${s.sym}</span>`;
+        } else {
+          cells += `<span></span>`;
+        }
+      }
+      centerHTML = `<div class="hd-pip-grid">${cells}</div>`;
+    }
+
+    el.innerHTML = `
+      <div class="hd-card-corner"><span>${card.rank}</span><span>${s.sym}</span></div>
+      <div class="hd-card-art">${centerHTML}</div>
+      <div class="hd-card-corner bot"><span>${card.rank}</span><span>${s.sym}</span></div>
+    `;
+    return el;
+  }
+
+  /* ==========================================================================
+     5. GAME 1: LEO POKERAN TONGKRONGAN ENGINE (100% EXACT LOCAL RULES)
+     ========================================================================== */
+  const PokerGame = {
+    mode: "bot", // 'bot' | 'passplay'
+    hands: [[], [], [], []],
+    finishedOrder: [],
+    turn: 0,
+    phase: "collect3", // 'collect3' | 'play' | 'over'
+    currentTrick: null, // { type, rankIdx, suitOrder, power, count, cards, owner, label }
+    passCount: 0,
+    warisanActive: false,
+    firstPlayOfGame: true,
+    syncChannel: null,
+
+    cardWeight(rank, suit) {
+      return RANKS.indexOf(rank) * 10 + SUIT_META[suit].order;
+    },
+
+    buildDeck() {
+      const deck = [];
+      for (const r of RANKS) {
+        for (const s of ["D", "C", "H", "S"]) {
+          deck.push({
+            id: r + s,
+            rank: r,
+            suit: s,
+            rIdx: RANKS.indexOf(r),
+            sIdx: SUIT_META[s].order,
+            weight: this.cardWeight(r, s)
+          });
+        }
+      }
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+      return deck;
+    },
+
+    initMatch() {
+      const deck = this.buildDeck();
+      this.hands = [
+        deck.slice(0, 13).sort((a, b) => a.weight - b.weight),
+        deck.slice(13, 26).sort((a, b) => a.weight - b.weight),
+        deck.slice(26, 39).sort((a, b) => a.weight - b.weight),
+        deck.slice(39, 52).sort((a, b) => a.weight - b.weight)
+      ];
+      this.finishedOrder = [];
+      this.currentTrick = null;
+      this.passCount = 0;
+      this.warisanActive = false;
+      this.firstPlayOfGame = true;
+      this.phase = "collect3";
+
+      const names = this.mode === "passplay"
+        ? ["Pemain 1", "Pemain 2", "Pemain 3", "Pemain 4"]
+        : ["Kamu", "Bot Kiri", "Bot Atas", "Bot Kanan"];
+      document.getElementById("pkName1").textContent = names[1];
+      document.getElementById("pkName2").textContent = names[2];
+      document.getElementById("pkName3").textContent = names[3];
+
+      document.getElementById("pkTrickZone").innerHTML = "";
+      document.getElementById("pkCollect3Btn").style.display = "inline-block";
+      document.getElementById("pkPlayBtn").disabled = true;
+      document.getElementById("pkPassBtn").disabled = true;
+      document.getElementById("pkHintBtn").disabled = true;
+
+      this.setStatus("Semua kartu (52 lembar) telah dibagi! Klik 'KUMPUL SEMUA ANGKA 3' untuk menentukan siapa yang jalan duluan.");
+      this.updateHUD();
+      this.renderActiveHand(0);
+      LeoSFX.deal();
+    },
+
+    // FASE AWAL: KUMPUL SEMUA KARTU ANGKA 3 KE MEJA
+    collectAllThrees() {
+      if (this.phase !== "collect3") return;
+      const collected = [];
+      let highestThree = null;
+      let starterPlayer = 0;
+
+      for (let p = 0; p < 4; p++) {
+        const threes = this.hands[p].filter((c) => c.rank === "3");
+        this.hands[p] = this.hands[p].filter((c) => c.rank !== "3");
+        for (const t of threes) {
+          collected.push({ card: t, player: p });
+          if (!highestThree || t.weight > highestThree.weight) {
+            highestThree = t;
+            starterPlayer = p;
+          }
+        }
+        document.getElementById("pkAction" + (p || 1)).textContent =
+          threes.length ? `Kumpul ${threes.length}x [3]` : "0x [3]";
+      }
+
+      // Tampilkan semua kartu 3 di meja tengah
+      const zone = document.getElementById("pkTrickZone");
+      zone.innerHTML = "";
+      collected.forEach((item, idx) => {
+        const el = createCardDOM(item.card);
+        el.style.marginLeft = idx === 0 ? "0px" : "-18px";
+        zone.appendChild(el);
+      });
+      const tag = document.createElement("div");
+      tag.className = "pk-combo-tag";
+      tag.textContent = highestThree
+        ? `TERTINGGI: 3${SUIT_META[highestThree.suit].sym} (PEMAIN ${starterPlayer + 1} JALAN DULUAN)`
+        : "MULAI PUTARAN";
+      zone.appendChild(tag);
+
+      LeoSFX.slap();
+      this.phase = "play";
+      this.turn = starterPlayer;
+      document.getElementById("pkCollect3Btn").style.display = "none";
+
+      const pName = starterPlayer === 0 ? "KAMU (Pemain 1)" : `Pemain ${starterPlayer + 1}`;
+      this.setStatus(
+        `Kumpul kartu 3 selesai! Pemegang simbol tertinggi (${highestThree.rank}${SUIT_META[highestThree.suit].sym}) adalah ${pName}. Giliran dimulai & muter ke kanan!`
+      );
+
+      this.updateHUD();
+      this.renderActiveHand(this.mode === "passplay" ? this.turn : 0);
+
+      setTimeout(() => {
+        this.currentTrick = null;
+        this.triggerTurnLogic();
+      }, 1500);
+    },
+
+    // ANALISIS KOMBINASI POKERAN TONGKRONGAN
+    analyzeCombination(cards) {
+      if (!cards || cards.length === 0) return null;
+      const sorted = [...cards].sort((a, b) => a.weight - b.weight);
+      const n = sorted.length;
+
+      // 1. SOLO (1 Kartu) -> Angka 2 adalah POKER (Kasta Solo Tertinggi)
+      if (n === 1) {
+        const c = sorted[0];
+        const isPoker = c.rank === "2";
+        return {
+          type: "solo",
+          isPoker,
+          count: 1,
+          power: c.weight,
+          cards: sorted,
+          label: isPoker ? `POKER (2${SUIT_META[c.suit].sym})` : `SOLO ${c.rank}${SUIT_META[c.suit].sym}`
+        };
+      }
+
+      // 2. PER (2 Kartu Sama) -> 2-2 adalah PER POKER
+      if (n === 2 && sorted[0].rank === sorted[1].rank) {
+        const isPoker = sorted[0].rank === "2";
+        return {
+          type: "per",
+          isPoker,
+          count: 2,
+          power: sorted[1].weight,
+          cards: sorted,
+          label: isPoker ? "PER POKER (2-2)" : `PER ${sorted[0].rank}`
+        };
+      }
+
+      // 3. TRIS (3 Kartu Sama) -> 2-2-2 adalah TRIS POKER
+      if (n === 3 && sorted[0].rank === sorted[2].rank) {
+        const isPoker = sorted[0].rank === "2";
+        return {
+          type: "tris",
+          isPoker,
+          count: 3,
+          power: sorted[2].weight,
+          cards: sorted,
+          label: isPoker ? "TRIS POKER (2-2-2)" : `TRIS ${sorted[0].rank}`
+        };
+      }
+
+      // 4. WANTED (4 Kartu Sama - BOM LANGSUNG MENANG!)
+      if (n === 4 && sorted[0].rank === sorted[3].rank) {
+        return {
+          type: "wanted",
+          count: 4,
+          power: 9999 + sorted[3].weight,
+          cards: sorted,
+          label: `💥 WANTED ${sorted[0].rank} (AUTO WIN!)`
+        };
+      }
+
+      // 5. HOS (5 Kartu: Gabungan Tris + Per)
+      if (n === 5) {
+        const r = sorted.map((c) => c.rank);
+        if (r[0] === r[2] && r[3] === r[4] && r[0] !== r[3]) {
+          return {
+            type: "hos",
+            count: 5,
+            power: sorted[2].weight,
+            cards: sorted,
+            label: `HOS (${r[0]} & ${r[3]})`
+          };
+        }
+        if (r[0] === r[1] && r[2] === r[4] && r[0] !== r[2]) {
+          return {
+            type: "hos",
+            count: 5,
+            power: sorted[4].weight,
+            cards: sorted,
+            label: `HOS (${r[2]} & ${r[0]})`
+          };
+        }
+      }
+
+      // 6. SERI (Minimal 3 Kartu Berurutan dengan SIMBOL SAMA)
+      if (n >= 3) {
+        const sameSuit = sorted.every((c) => c.suit === sorted[0].suit);
+        if (sameSuit) {
+          // Cek urutan normal (3..A..2) atau urutan A-2-3
+          let consecutive = true;
+          for (let i = 0; i < n - 1; i++) {
+            if (sorted[i + 1].rIdx - sorted[i].rIdx !== 1) {
+              consecutive = false;
+              break;
+            }
+          }
+          if (consecutive) {
+            const sym = SUIT_META[sorted[0].suit].sym;
+            return {
+              type: "seri",
+              count: n,
+              power: sorted[n - 1].weight,
+              cards: sorted,
+              label: `SERI ${sym} (${sorted[0].rank}-${sorted[n - 1].rank})`
+            };
+          }
+        }
+      }
+
+      return null;
+    },
+
+    // VALIDASI APAKAH KOMBINASI BISA MELAWAN MEJA SAAT INI
+    canBeatTrick(play, current) {
+      if (!play) return { ok: false, reason: "Kombinasi kartu tidak valid!" };
+
+      // Aturan Khusus WANTED (4 Kartu Sama)
+      if (play.type === "wanted") {
+        if (!current || this.firstPlayOfGame || (current && current.isPoker)) {
+          return { ok: true };
+        }
+        return {
+          ok: false,
+          reason: "WANTED hanya bisa dikeluarkan saat buka kartu pertama atau untuk mengebom lawan yang mengeluarkan kartu POKER (2)!"
+        };
+      }
+
+      // Jika meja kosong (Kartu Membawa / Warisan / Awal Putaran) -> Bebas keluarkan kombinasi sah apa saja
+      if (!current) return { ok: true };
+
+      // Harus sejenis
+      if (play.type !== current.type) {
+        return { ok: false, reason: `Harus dilawan dengan kombinasi sejenis (${current.type.toUpperCase()})!` };
+      }
+
+      if (play.type === "seri" && play.count !== current.count) {
+        return { ok: false, reason: `Seri harus dilawan Seri dengan jumlah kartu sama (${current.count} lembar)!` };
+      }
+
+      if (play.power > current.power) return { ok: true };
+      return { ok: false, reason: "Nilai/kasta kartumu masih kalah tinggi dari kartu di meja!" };
+    },
+
+    // EKSEKUSI BANTING KARTU OLEH PEMAIN ATAU BOT
+    executePlay(playerIdx, combo) {
+      // Kurangi kartu dari tangan pemain
+      const usedIds = new Set(combo.cards.map((c) => c.id));
+      this.hands[playerIdx] = this.hands[playerIdx].filter((c) => !usedIds.has(c.id));
+      this.firstPlayOfGame = false;
+      this.warisanActive = false;
+      this.passCount = 0;
+      this.currentTrick = { ...combo, owner: playerIdx };
+
+      // Render kartu di meja
+      const zone = document.getElementById("pkTrickZone");
+      zone.innerHTML = "";
+      combo.cards.forEach((c, idx) => {
+        const el = createCardDOM(c);
+        el.style.marginLeft = idx === 0 ? "0px" : "-20px";
+        el.style.transform = `rotate(${(idx - (combo.cards.length - 1) / 2) * 4}deg)`;
+        zone.appendChild(el);
+      });
+      const tag = document.createElement("div");
+      tag.className = "pk-combo-tag";
+      tag.textContent = `${combo.label} · P${playerIdx + 1}`;
+      zone.appendChild(tag);
+
+      if (playerIdx > 0) {
+        document.getElementById("pkAction" + playerIdx).textContent = combo.label;
+      }
+
+      // CEK APAKAH WANTED (LANGSUNG MENANG INSTAN!)
+      if (combo.type === "wanted") {
+        LeoSFX.bomb();
+        this.hands[playerIdx] = []; // Otomatis menang
+        this.finishedOrder.push(playerIdx);
+        this.setStatus(`💥 BOM WANTED DIKELUARKAN OLEH PEMAIN ${playerIdx + 1}! LANGSUNG MENANG OTOMATIS!`);
+        this.updateHUD();
+        this.checkMatchEndOrContinue(playerIdx, true);
+        return;
+      }
+
+      LeoSFX.slap();
+
+      // Cek apakah kartu pemain habis (MENANG)
+      if (this.hands[playerIdx].length === 0) {
+        LeoSFX.win();
+        this.finishedOrder.push(playerIdx);
+        const rankPos = this.finishedOrder.length;
+        this.setStatus(
+          `🏆 PEMAIN ${playerIdx + 1} HABIS KARTU & MENANG JUARA #${rankPos}! Pemain berikutnya berhak dapat WARISAN jika tidak ada yang melawan.`
+        );
+        this.updateHUD();
+        this.checkMatchEndOrContinue(playerIdx, false);
+        return;
+      }
+
+      this.setStatus(`Pemain ${playerIdx + 1} membanting ${combo.label}! Giliran muter ke kanan.`);
+      this.advanceTurnRight();
+    },
+
+    executePass(playerIdx) {
+      if (!this.currentTrick) return;
+      LeoSFX.pass();
+      this.passCount++;
+      if (playerIdx > 0) {
+        document.getElementById("pkAction" + playerIdx).textContent = "LEWAT";
+      }
+
+      const activePlayersCount = 4 - this.finishedOrder.length;
+      const neededPasses = this.finishedOrder.includes(this.currentTrick.owner)
+        ? activePlayersCount
+        : activePlayersCount - 1;
+
+      if (this.passCount >= neededPasses) {
+        const owner = this.currentTrick.owner;
+        this.currentTrick = null;
+        this.passCount = 0;
+
+        if (this.finishedOrder.includes(owner)) {
+          // WARISAN! Pemenang sudah keluar, hak kartu bebas jatuh ke pemain aktif berikutnya di sebelah kanan
+          const heir = this.getNextActivePlayer(owner);
+          this.turn = heir;
+          this.warisanActive = true;
+          document.getElementById("pkTrickZone").innerHTML =
+            `<div class="pk-combo-tag">👑 WARISAN! PEMAIN ${heir + 1} BEBAS BUKA KARTU APA SAJA</div>`;
+          this.setStatus(`👑 WARISAN! Tidak ada yang melawan kartu terakhir. Pemain ${heir + 1} bebas mengeluarkan kombinasi apa saja!`);
+          this.triggerTurnLogic();
+          return;
+        } else {
+          // KARTU MEMBAWA! Semua lawan lewat, pemenang trick bebas taruh kartu baru / kecilin kartu
+          this.turn = owner;
+          document.getElementById("pkTrickZone").innerHTML =
+            `<div class="pk-combo-tag">🔥 KARTU MEMBAWA! PEMAIN ${owner + 1} JALAN BEBAS</div>`;
+          this.setStatus(`🔥 KARTU MEMBAWA! Semua lawan lewat. Pemain ${owner + 1} bebas mengeluarkan kartu kecil / Per / Tris / Hos / Seri!`);
+          this.triggerTurnLogic();
+          return;
+        }
+      }
+
+      this.advanceTurnRight();
+    },
+
+    getNextActivePlayer(fromIdx) {
+      // Muter ke kanan berurutan (0 -> 1 -> 2 -> 3 -> 0)
+      for (let step = 1; step <= 4; step++) {
+        const candidate = (fromIdx + step) % 4;
+        if (!this.finishedOrder.includes(candidate)) return candidate;
+      }
+      return 0;
+    },
+
+    advanceTurnRight() {
+      this.turn = this.getNextActivePlayer(this.turn);
+      this.triggerTurnLogic();
+    },
+
+    checkMatchEndOrContinue(justFinishedPlayer, wasWanted) {
+      if (this.finishedOrder.length >= 3) {
+        // Sisa 1 orang terakhir
+        for (let p = 0; p < 4; p++) {
+          if (!this.finishedOrder.includes(p)) this.finishedOrder.push(p);
+        }
+        this.phase = "over";
+        this.updateHUD();
+        this.showMatchSummaryModal();
+        return;
+      }
+
+      if (wasWanted) {
+        // Setelah Wanted langsung menang, pemain sebelah kanannya dapat Warisan meja bersih
+        this.currentTrick = null;
+        this.passCount = 0;
+        this.turn = this.getNextActivePlayer(justFinishedPlayer);
+        this.warisanActive = true;
+        this.triggerTurnLogic();
+      } else {
+        this.advanceTurnRight();
+      }
+    },
+
+    // CARI SEMUA KOMBINASI VALID DI TANGAN (UNTUK BOT AI & TOMBOL SARAN/HINT)
+    findAllValidMoves(hand, trick) {
+      const moves = [];
+      const n = hand.length;
+
+      // 1. Cek Wanted (4 kartu sama)
+      const byRank = {};
+      hand.forEach((c) => { (byRank[c.rank] = byRank[c.rank] || []).push(c); });
+      Object.values(byRank).forEach((group) => {
+        if (group.length === 4) {
+          const combo = this.analyzeCombination(group);
+          if (this.canBeatTrick(combo, trick).ok) moves.push(combo);
+        }
+      });
+
+      // 2. Jika meja kosong atau lawan Seri / Hos / Tris / Per / Solo
+      // Solo
+      hand.forEach((c) => {
+        const combo = this.analyzeCombination([c]);
+        if (this.canBeatTrick(combo, trick).ok) moves.push(combo);
+      });
+
+      // Per
+      Object.values(byRank).forEach((group) => {
+        if (group.length >= 2) {
+          const combo = this.analyzeCombination(group.slice(0, 2));
+          if (this.canBeatTrick(combo, trick).ok) moves.push(combo);
+        }
+      });
+
+      // Tris
+      Object.values(byRank).forEach((group) => {
+        if (group.length >= 3) {
+          const combo = this.analyzeCombination(group.slice(0, 3));
+          if (this.canBeatTrick(combo, trick).ok) moves.push(combo);
+        }
+      });
+
+      // Hos (Tris + Per)
+      const trisGroups = Object.values(byRank).filter((g) => g.length >= 3);
+      const perGroups = Object.values(byRank).filter((g) => g.length >= 2);
+      for (const tg of trisGroups) {
+        for (const pg of perGroups) {
+          if (tg[0].rank !== pg[0].rank) {
+            const combo = this.analyzeCombination([...tg.slice(0, 3), ...pg.slice(0, 2)]);
+            if (combo && this.canBeatTrick(combo, trick).ok) moves.push(combo);
+          }
+        }
+      }
+
+      // Seri (Sejenis berurutan 3..5 lembar)
+      const bySuit = { D: [], C: [], H: [], S: [] };
+      hand.forEach((c) => bySuit[c.suit].push(c));
+      Object.values(bySuit).forEach((sCards) => {
+        sCards.sort((a, b) => a.rIdx - b.rIdx);
+        for (let len = 3; len <= sCards.length; len++) {
+          for (let i = 0; i <= sCards.length - len; i++) {
+            const slice = sCards.slice(i, i + len);
+            const combo = this.analyzeCombination(slice);
+            if (combo && this.canBeatTrick(combo, trick).ok) moves.push(combo);
+          }
+        }
+      });
+
+      // Prioritaskan kombinasi banyak kartu saat meja kosong (Kartu Membawa), atau kartu terkecil yang bisa menang
+      moves.sort((a, b) => {
+        if (!trick) return b.count - a.count || a.power - b.power;
+        return a.power - b.power;
+      });
+      return moves;
+    },
+
+    triggerTurnLogic() {
+      this.updateHUD();
+      if (this.phase !== "play") return;
+
+      // Jika Mode Pass & Play (Mabar 1 HP), tampilkan tirai ganti pemain
+      if (this.mode === "passplay") {
+        this.showPassPlayCurtain(this.turn);
+        return;
+      }
+
+      // Mode Vs Bot: jika Pemain 1 sudah menang, masuk Mode Nonton (Spectator)
+      const isHumanTurn = this.turn === 0 && !this.finishedOrder.includes(0);
+      document.getElementById("pkPlayBtn").disabled = !isHumanTurn;
+      document.getElementById("pkHintBtn").disabled = !isHumanTurn;
+      document.getElementById("pkPassBtn").disabled = !isHumanTurn || !this.currentTrick;
+
+      if (this.finishedOrder.includes(0)) {
+        document.getElementById("pkMyLabel").textContent =
+          "👀 MODE NONTON (SPECTATOR): Kartumu sudah habis! Menonton sisa pemain menyelesaikan pertandingan...";
+      } else {
+        document.getElementById("pkMyLabel").textContent =
+          isHumanTurn
+            ? "🔥 GILIRAN KAMU! Pilih kartu lalu klik BANTING KARTU (atau klik SARAN)"
+            : `⏳ Menunggu giliran Pemain ${this.turn + 1}...`;
+      }
+
+      this.renderActiveHand(0);
+
+      if (!isHumanTurn) {
+        const delay = this.finishedOrder.includes(0) ? 550 : 950;
+        setTimeout(() => {
+          if (this.phase !== "play" || this.turn === 0) return;
+          const botHand = this.hands[this.turn];
+          const validMoves = this.findAllValidMoves(botHand, this.currentTrick);
+          if (validMoves.length > 0) {
+            this.executePlay(this.turn, validMoves[0]);
+          } else {
+            this.executePass(this.turn);
+          }
+        }, delay);
+      }
+    },
+
+    renderActiveHand(playerIdx) {
+      const container = document.getElementById("pkPlayerHand");
+      container.innerHTML = "";
+      const hand = this.hands[playerIdx] || [];
+      hand.forEach((card) => {
+        const el = createCardDOM(card);
+        el.addEventListener("click", () => {
+          el.classList.toggle("selected");
+          LeoSFX.chip();
+        });
+        container.appendChild(el);
+      });
+    },
+
+    updateHUD() {
+      for (let i = 1; i <= 3; i++) {
+        const seat = document.getElementById("pkSeat" + i);
+        const cnt = document.getElementById("pkCount" + i);
+        if (cnt) cnt.textContent = this.hands[i].length;
+        if (seat) {
+          seat.classList.toggle("active-turn", this.phase === "play" && this.turn === i);
+          seat.classList.toggle("finished", this.finishedOrder.includes(i));
+        }
+        if (this.finishedOrder.includes(i)) {
+          const pos = this.finishedOrder.indexOf(i) + 1;
+          document.getElementById("pkAction" + i).textContent = `🏆 JUARA #${pos}`;
+        }
+      }
+    },
+
+    setStatus(msg) {
+      const el = document.getElementById("pkStatusBanner");
+      if (el) el.textContent = msg;
+    },
+
+    showPassPlayCurtain(nextPlayerIdx) {
+      const overlay = document.getElementById("pkModalOverlay");
+      const box = document.getElementById("pkModalContent");
+      overlay.hidden = false;
+      box.innerHTML = `
+        <h3 style="margin:0 0 8px;color:#facc15;">👥 GILIRAN PEMAIN ${nextPlayerIdx + 1}</h3>
+        <p style="font-size:13px;color:#cbd5e1;margin:0 0 18px;">
+          Oper HP/Layar ke <strong>Pemain ${nextPlayerIdx + 1}</strong>. Jangan intip kartu lawan!
+        </p>
+        <button class="pk-btn play" type="button" id="pkCurtainOpenBtn" style="width:100%;">
+          👁️ SAYA PEMAIN ${nextPlayerIdx + 1} · BUKA KARTU
+        </button>
+      `;
+      document.getElementById("pkCurtainOpenBtn").onclick = () => {
+        overlay.hidden = true;
+        document.getElementById("pkMyLabel").textContent = `🔥 Tangan Pemain ${nextPlayerIdx + 1} (Mode Mabar Gantian)`;
+        document.getElementById("pkPlayBtn").disabled = false;
+        document.getElementById("pkHintBtn").disabled = false;
+        document.getElementById("pkPassBtn").disabled = !this.currentTrick;
+        this.renderActiveHand(nextPlayerIdx);
+      };
+    },
+
+    showMatchSummaryModal() {
+      const overlay = document.getElementById("pkModalOverlay");
+      const box = document.getElementById("pkModalContent");
+      overlay.hidden = false;
+      const medals = ["🥇 JUARA 1", "🥈 JUARA 2", "🥉 JUARA 3", "💀 KALAH BONTOT"];
+      const rows = this.finishedOrder
+        .map((pIdx, i) => `<div style="padding:8px;border-bottom:1px solid #334155;font-weight:700;">${medals[i]} — Pemain ${pIdx + 1}</div>`)
+        .join("");
+      box.innerHTML = `
+        <h3 style="margin:0 0 10px;color:#facc15;">🏆 HASIL AKHIR POKERAN</h3>
+        <div style="margin-bottom:18px;text-align:left;background:#1e293b;border-radius:10px;padding:8px 12px;">${rows}</div>
+        <button class="pk-btn play" type="button" id="pkPlayAgainModalBtn" style="width:100%;">🔄 MAIN LAGI SEKARANG</button>
+      `;
+      document.getElementById("pkPlayAgainModalBtn").onclick = () => {
+        overlay.hidden = true;
+        this.initMatch();
+      };
+    },
+
+    showOnlineRoomModal() {
+      const overlay = document.getElementById("pkModalOverlay");
+      const box = document.getElementById("pkModalContent");
+      overlay.hidden = false;
+      const randomRoom = "LEO-" + Math.floor(1000 + Math.random() * 9000);
+      box.innerHTML = `
+        <h3 style="margin:0 0 8px;color:#38bdf8;">🌐 MABAR ROOM REAL-TIME</h3>
+        <p style="font-size:12px;color:#cbd5e1;margin:0 0 12px;line-height:1.5;">
+          Bagikan Kode Room ini ke temanmu atau mainkan Mode Mabar 4 Pemain langsung di perangkat ini:
+        </p>
+        <input id="pkRoomInput" type="text" value="${randomRoom}" style="text-align:center;font-weight:800;font-size:16px;background:#1e293b;color:#facc15;border:2px solid #38bdf8;border-radius:8px;margin-bottom:12px;" />
+        <div style="display:flex;gap:8px;flex-direction:column;">
+          <button class="pk-btn play" type="button" id="pkCopyRoomBtn">📋 COPY KODE ROOM & BUKA MEJA</button>
+          <button class="pk-btn hint" type="button" id="pkStartPassPlayBtn">👥 MABAR 4 TEMAN (1 HP GANTIAN)</button>
+          <button class="pk-btn pass" type="button" id="pkCloseModalBtn">✕ TUTUP</button>
+        </div>
+      `;
+      document.getElementById("pkCopyRoomBtn").onclick = () => {
+        const code = document.getElementById("pkRoomInput").value.trim() || randomRoom;
+        try { navigator.clipboard.writeText(window.location.href.split("#")[0] + "?room=" + code); } catch {}
+        overlay.hidden = true;
+        this.setStatus(`🌐 Room [${code}] Aktif! Menunggu lawan atau main bersama Bot sambil menunggu.`);
+        LeoSFX.win();
+      };
+      document.getElementById("pkStartPassPlayBtn").onclick = () => {
+        overlay.hidden = true;
+        this.mode = "passplay";
+        document.getElementById("pkModeBtn").textContent = "👥 Mode: Mabar 4P";
+        this.initMatch();
+      };
+      document.getElementById("pkCloseModalBtn").onclick = () => { overlay.hidden = true; };
+    }
+  };
+
+  // Bind Pokeran Buttons
+  document.getElementById("pkCollect3Btn").addEventListener("click", () => PokerGame.collectAllThrees());
+  document.getElementById("pkNewMatchBtn").addEventListener("click", () => PokerGame.initMatch());
+  document.getElementById("pkModeBtn").addEventListener("click", (e) => {
+    PokerGame.mode = PokerGame.mode === "bot" ? "passplay" : "bot";
+    e.currentTarget.textContent = PokerGame.mode === "bot" ? "👥 Mode: Vs Bot" : "👥 Mode: Mabar 4P";
+    PokerGame.initMatch();
+  });
+  document.getElementById("pkOnlineBtn").addEventListener("click", () => PokerGame.showOnlineRoomModal());
+
+  document.getElementById("pkPlayBtn").addEventListener("click", () => {
+    const activeP = PokerGame.mode === "passplay" ? PokerGame.turn : 0;
+    const selectedEls = document.querySelectorAll("#pkPlayerHand .hd-card.selected");
+    if (selectedEls.length === 0) {
+      LeoSFX.error();
+      PokerGame.setStatus("⚠️ Pilih minimal 1 kartu terlebih dahulu dengan mengklik kartumu!");
+      return;
+    }
+    const chosenIds = new Set(Array.from(selectedEls).map((el) => el.dataset.id));
+    const chosenCards = PokerGame.hands[activeP].filter((c) => chosenIds.has(c.id));
+    const combo = PokerGame.analyzeCombination(chosenCards);
+    const check = PokerGame.canBeatTrick(combo, PokerGame.currentTrick);
+    if (!check.ok) {
+      LeoSFX.error();
+      PokerGame.setStatus("❌ " + check.reason);
+      return;
+    }
+    PokerGame.executePlay(activeP, combo);
+  });
+
+  document.getElementById("pkPassBtn").addEventListener("click", () => {
+    const activeP = PokerGame.mode === "passplay" ? PokerGame.turn : 0;
+    if (!PokerGame.currentTrick) {
+      LeoSFX.error();
+      PokerGame.setStatus("⚠️ Meja sedang bersih (Kartu Membawa / Warisan), kamu wajib mengeluarkan kartu!");
+      return;
+    }
+    PokerGame.executePass(activeP);
+  });
+
+  document.getElementById("pkHintBtn").addEventListener("click", () => {
+    const activeP = PokerGame.mode === "passplay" ? PokerGame.turn : 0;
+    const moves = PokerGame.findAllValidMoves(PokerGame.hands[activeP], PokerGame.currentTrick);
+    document.querySelectorAll("#pkPlayerHand .hd-card").forEach((el) => el.classList.remove("selected"));
+    if (moves.length === 0) {
+      LeoSFX.error();
+      PokerGame.setStatus("💡 Tidak ada kartu yang bisa melawan meja saat ini. Silakan klik LEWAT (PASS).");
+      return;
+    }
+    const best = moves[0];
+    const ids = new Set(best.cards.map((c) => c.id));
+    document.querySelectorAll("#pkPlayerHand .hd-card").forEach((el) => {
+      if (ids.has(el.dataset.id)) el.classList.add("selected");
+    });
+    LeoSFX.chip();
+    PokerGame.setStatus(`💡 Saran: Mainkan ${best.label}! Klik BANTING KARTU untuk eksekusi.`);
+  });
+
+  /* ==========================================================================
+     6. GAME 2: NEON VELOCITY HD DRIFT RACER (60FPS CANVAS + TOUCH/KEYBOARD)
+     ========================================================================== */
+  const RacerGame = {
+    running: false,
+    raf: null,
+    carX: 210,
+    steer: 0,
+    nitro: false,
+    score: 0,
+    best: parseInt(localStorage.getItem("leo_racer_best") || "0", 10),
+    roadOffset: 0,
+    enemies: [],
+    particles: [],
+
+    start() {
+      this.stop();
+      this.running = true;
+      this.carX = 210;
+      this.score = 0;
+      this.enemies = [];
+      this.particles = [];
+      document.getElementById("racerBest").textContent = this.best;
+      const canvas = document.getElementById("racerCanvas");
+      const ctx = canvas.getContext("2d");
+
+      const loop = () => {
+        if (!this.running) return;
+        this.update(canvas);
+        this.draw(ctx, canvas);
+        this.raf = requestAnimationFrame(loop);
+      };
+      this.raf = requestAnimationFrame(loop);
+    },
+
+    stop() {
+      this.running = false;
+      if (this.raf) cancelAnimationFrame(this.raf);
+    },
+
+    update(canvas) {
+      const spd = this.nitro ? 11 : 6.5;
+      this.roadOffset = (this.roadOffset + spd) % 60;
+      this.carX = Math.max(70, Math.min(canvas.width - 70, this.carX + this.steer * 5.8));
+      this.score += this.nitro ? 3 : 1;
+
+      if (this.score % 18 === 0) LeoSFX.engine(spd * 12);
+
+      // Drift & Nitro particles
+      if (Math.abs(this.steer) > 0 || this.nitro) {
+        this.particles.push({
+          x: this.carX + (Math.random() * 20 - 10),
+          y: 485,
+          vy: spd * 0.6,
+          life: 1,
+          color: this.nitro ? "#f97316" : "#94a3b8"
+        });
+      }
+      this.particles.forEach((p) => { p.y += p.vy; p.life -= 0.06; });
+      this.particles = this.particles.filter((p) => p.life > 0);
+
+      // Spawn oncoming traffic
+      if (Math.random() < 0.032 && this.enemies.length < 4) {
+        const lanes = [95, 170, 250, 325];
+        const laneX = lanes[Math.floor(Math.random() * lanes.length)];
+        if (!this.enemies.some((e) => Math.abs(e.y) < 120 && Math.abs(e.x - laneX) < 40)) {
+          this.enemies.push({
+            x: laneX,
+            y: -70,
+            spd: 3.2 + Math.random() * 2.5,
+            col: ["#ef4444", "#a855f7", "#22c55e", "#eab308"][Math.floor(Math.random() * 4)]
+          });
+        }
+      }
+
+      for (const e of this.enemies) {
+        e.y += spd - e.spd * 0.35;
+        // Collision check
+        if (Math.abs(e.x - this.carX) < 32 && Math.abs(e.y - 445) < 58) {
+          LeoSFX.error();
+          if (this.score > this.best) {
+            this.best = this.score;
+            try { localStorage.setItem("leo_racer_best", String(this.best)); } catch {}
+            document.getElementById("racerBest").textContent = this.best;
+          }
+          this.score = 0;
+          this.enemies = [];
+          break;
+        }
+      }
+      this.enemies = this.enemies.filter((e) => e.y < canvas.height + 80);
+
+      document.getElementById("racerScore").textContent = this.score;
+      document.getElementById("racerSpeed").textContent = Math.round(spd * 24);
+    },
+
+    draw(ctx, canvas) {
+      ctx.fillStyle = "#060b14";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Road shoulders
+      ctx.fillStyle = "#111827";
+      ctx.fillRect(45, 0, canvas.width - 90, canvas.height);
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(45, 0); ctx.lineTo(45, canvas.height);
+      ctx.moveTo(canvas.width - 45, 0); ctx.lineTo(canvas.width - 45, canvas.height);
+      ctx.stroke();
+
+      // Lane markers
+      ctx.strokeStyle = "rgba(255,255,255,0.28)";
+      ctx.lineWidth = 3;
+      ctx.setLineDash([28, 32]);
+      ctx.lineDashOffset = -this.roadOffset;
+      [132, 210, 288].forEach((lx) => {
+        ctx.beginPath();
+        ctx.moveTo(lx, 0);
+        ctx.lineTo(lx, canvas.height);
+        ctx.stroke();
+      });
+      ctx.setLineDash([]);
+
+      // Particles
+      this.particles.forEach((p) => {
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+
+      // Enemy cars
+      this.enemies.forEach((e) => this.drawCar(ctx, e.x, e.y, e.col, false));
+
+      // Player HD Sports Car
+      ctx.save();
+      ctx.translate(this.carX, 445);
+      ctx.rotate(this.steer * 0.14);
+      this.drawCar(ctx, 0, 0, "#38bdf8", true);
+      ctx.restore();
+    },
+
+    drawCar(ctx, x, y, color, isPlayer) {
+      ctx.save();
+      ctx.translate(x, y);
+      // Headlight beams
+      if (isPlayer) {
+        const grad = ctx.createLinearGradient(0, -30, 0, -130);
+        grad.addColorStop(0, "rgba(56, 189, 248, 0.38)");
+        grad.addColorStop(1, "rgba(56, 189, 248, 0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(-16, -30); ctx.lineTo(-36, -130); ctx.lineTo(36, -130); ctx.lineTo(16, -30);
+        ctx.fill();
+      }
+      // Tires
+      ctx.fillStyle = "#000";
+      [[-20, -22], [14, -22], [-20, 12], [14, 12]].forEach(([tx, ty]) => {
+        ctx.fillRect(tx, ty, 6, 14);
+      });
+      // Car Chassis
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.roundRect(-17, -32, 34, 64, 8);
+      ctx.fill();
+      // Windshield & Roof
+      ctx.fillStyle = "#0f172a";
+      ctx.beginPath();
+      ctx.roundRect(-13, -14, 26, 30, 5);
+      ctx.fill();
+      ctx.restore();
+    }
+  };
+
+  // Racer Controls (Touch + Keyboard)
+  const bindHold = (id, onDown, onUp) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    ["mousedown", "touchstart"].forEach((ev) => el.addEventListener(ev, (e) => { e.preventDefault(); onDown(); }));
+    ["mouseup", "mouseleave", "touchend"].forEach((ev) => el.addEventListener(ev, (e) => { e.preventDefault(); onUp(); }));
+  };
+  bindHold("racerLeftBtn", () => { RacerGame.steer = -1; }, () => { if (RacerGame.steer < 0) RacerGame.steer = 0; });
+  bindHold("racerRightBtn", () => { RacerGame.steer = 1; }, () => { if (RacerGame.steer > 0) RacerGame.steer = 0; });
+  bindHold("racerNitroBtn", () => { RacerGame.nitro = true; }, () => { RacerGame.nitro = false; });
+
+  window.addEventListener("keydown", (e) => {
+    if (!RacerGame.running) return;
+    if (e.key === "ArrowLeft" || e.key === "a") RacerGame.steer = -1;
+    if (e.key === "ArrowRight" || e.key === "d") RacerGame.steer = 1;
+    if (e.key === " " || e.key === "ArrowUp" || e.key === "w") RacerGame.nitro = true;
+  });
+  window.addEventListener("keyup", (e) => {
+    if (["ArrowLeft", "a", "ArrowRight", "d"].includes(e.key)) RacerGame.steer = 0;
+    if ([" ", "ArrowUp", "w"].includes(e.key)) RacerGame.nitro = false;
+  });
+
+  /* ==========================================================================
+     7. GAME 3: NEON TIC-TAC-TOE ARENA (VS MINIMAX BOT / 2P MABAR)
+     ========================================================================== */
+  const TTTGame = {
+    board: Array(9).fill(""),
+    turn: "X",
+    vsBot: true,
+    over: false,
+    scores: { X: 0, O: 0, D: 0 },
+    wins: [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]],
+
+    init() {
+      this.board = Array(9).fill("");
+      this.turn = "X";
+      this.over = false;
+      document.getElementById("tttStatusText").textContent =
+        this.vsBot ? "Giliran Kamu (❌ X)" : "Giliran Pemain 1 (❌ X)";
+      this.render();
+    },
+
+    render(winLine = []) {
+      const container = document.getElementById("tttBoard");
+      container.innerHTML = "";
+      this.board.forEach((val, idx) => {
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "ttt-cell" +
+          (val === "X" ? " x-mark" : val === "O" ? " o-mark" : "") +
+          (winLine.includes(idx) ? " win-cell" : "");
+        cell.textContent = val;
+        cell.addEventListener("click", () => this.clickCell(idx));
+        container.appendChild(cell);
+      });
+    },
+
+    checkWin(b) {
+      for (const line of this.wins) {
+        const [a, c, d] = line;
+        if (b[a] && b[a] === b[c] && b[a] === b[d]) return { winner: b[a], line };
+      }
+      if (b.every((x) => x !== "")) return { winner: "D", line: [] };
+      return null;
+    },
+
+    clickCell(idx) {
+      if (this.over || this.board[idx] !== "") return;
+      this.board[idx] = this.turn;
+      LeoSFX.chip();
+      const res = this.checkWin(this.board);
+      if (res) {
+        this.finish(res);
+        return;
+      }
+      this.turn = this.turn === "X" ? "O" : "X";
+      document.getElementById("tttStatusText").textContent =
+        this.vsBot && this.turn === "O" ? "🤖 Bot sedang berpikir..." : `Giliran ${this.turn}`;
+      this.render();
+
+      if (this.vsBot && this.turn === "O" && !this.over) {
+        setTimeout(() => this.botMove(), 360);
+      }
+    },
+
+    botMove() {
+      // Smart AI: 1. Win if possible, 2. Block X win, 3. Take center, 4. Corners/random
+      let move = -1;
+      for (const mark of ["O", "X"]) {
+        for (let i = 0; i < 9; i++) {
+          if (!this.board[i]) {
+            this.board[i] = mark;
+            if (this.checkWin(this.board)?.winner === mark) move = i;
+            this.board[i] = "";
+            if (move !== -1) break;
+          }
+        }
+        if (move !== -1) break;
+      }
+      if (move === -1 && !this.board[4]) move = 4;
+      if (move === -1) {
+        const empty = this.board.map((v, i) => (v === "" ? i : -1)).filter((i) => i !== -1);
+        move = empty[Math.floor(Math.random() * empty.length)];
+      }
+      if (move !== -1) this.clickCell(move);
+    },
+
+    finish(res) {
+      this.over = true;
+      this.render(res.line);
+      if (res.winner === "D") {
+        this.scores.D++;
+        document.getElementById("tttStatusText").textContent = "🤝 PERTANDINGAN SERI!";
+        LeoSFX.pass();
+      } else {
+        this.scores[res.winner]++;
+        document.getElementById("tttStatusText").textContent = `🏆 PEMENANG: ${res.winner}!`;
+        LeoSFX.win();
+      }
+      document.getElementById("tttScoreX").textContent = this.scores.X;
+      document.getElementById("tttScoreO").textContent = this.scores.O;
+      document.getElementById("tttScoreDraw").textContent = this.scores.D;
+    }
+  };
+
+  document.getElementById("tttResetBtn").addEventListener("click", () => TTTGame.init());
+  document.getElementById("tttModeBotBtn").addEventListener("click", (e) => {
+    TTTGame.vsBot = true;
+    e.currentTarget.classList.add("primary");
+    document.getElementById("tttMode2PBtn").classList.remove("primary");
+    TTTGame.init();
+  });
+  document.getElementById("tttMode2PBtn").addEventListener("click", (e) => {
+    TTTGame.vsBot = false;
+    e.currentTarget.classList.add("primary");
+    document.getElementById("tttModeBotBtn").classList.remove("primary");
+    TTTGame.init();
+  });
+
+  /* ==========================================================================
+     8. GAME 4: QUANTUM CIPHER MATRIX (TEKA-TEKI SIRKUIT LOGIKA)
+     ========================================================================== */
+  const CipherGame = {
+    level: 1,
+    moves: 0,
+    grid: Array(16).fill(true),
+
+    init(lvl = 1) {
+      this.level = lvl;
+      this.moves = 0;
+      this.grid = Array(16).fill(true);
+      // Scramble solvable board by applying random valid flips
+      const scrambles = 3 + lvl * 2;
+      for (let i = 0; i < scrambles; i++) {
+        this.flipNeighbors(Math.floor(Math.random() * 16));
+      }
+      if (this.grid.every(Boolean)) this.flipNeighbors(5);
+      this.render();
+    },
+
+    flipNeighbors(idx) {
+      const r = Math.floor(idx / 4);
+      const c = idx % 4;
+      const targets = [[r, c], [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]];
+      targets.forEach(([tr, tc]) => {
+        if (tr >= 0 && tr < 4 && tc >= 0 && tc < 4) {
+          const ti = tr * 4 + tc;
+          this.grid[ti] = !this.grid[ti];
+        }
+      });
+    },
+
+    render() {
+      document.getElementById("cipherLevel").textContent = this.level;
+      document.getElementById("cipherMoves").textContent = this.moves;
+      const board = document.getElementById("cipherGrid");
+      board.innerHTML = "";
+      this.grid.forEach((lit, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "cipher-tile" + (lit ? " lit" : "");
+        btn.innerHTML = `<span>${lit ? "⚡" : "🔒"}</span><small style="font-size:10px;opacity:0.7;">N-${idx + 1}</small>`;
+        btn.addEventListener("click", () => {
+          this.moves++;
+          this.flipNeighbors(idx);
+          LeoSFX.chip();
+          this.render();
+          if (this.grid.every(Boolean)) {
+            LeoSFX.win();
+            setTimeout(() => {
+              alert(`🔓 BRANKAS LEVEL ${this.level} TERBOBOL dalam ${this.moves} langkah! Lanjut ke Level ${this.level + 1}!`);
+              this.init(this.level + 1);
+            }, 150);
+          }
+        });
+        board.appendChild(btn);
+      });
+    }
+  };
+
+  document.getElementById("cipherNewBtn").addEventListener("click", () => CipherGame.init(CipherGame.level));
+})();
+</script>
+<!-- ============================================================================
+     LEOVANDYZ MULTIPLAYER ONLINE ADD-ON (PEERJS REAL-TIME + VOICE MIC + CHAT)
+     ============================================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<style>
+  .mp-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.94);
+    backdrop-filter: blur(10px);
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .mp-overlay[hidden] { display: none !important; }
+  .mp-box {
+    background: #0f172a;
+    border: 2px solid #38bdf8;
+    border-radius: 18px;
+    padding: 24px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.85);
+  }
+  /* In-Game Chat & Voice Dock */
+  .mp-dock {
+    position: absolute;
+    right: 12px;
+    top: 64px;
+    width: 260px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 2px solid #334155;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 25;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+  .mp-chat-logs {
+    height: 110px;
+    background: #020617;
+    border: 1px solid #1e293b;
+    border-radius: 6px;
+    padding: 6px;
+    overflow-y: auto;
+    font-size: 11px;
+    text-align: left;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mp-chat-input-row {
+    display: flex;
+    gap: 6px;
+  }
+  .mp-chat-input-row input {
+    flex: 1;
+    padding: 6px 8px;
+    font-size: 11px;
+    background: #1e293b;
+    border: 1px solid #475569;
+    color: #fff;
+    border-radius: 6px;
+    margin: 0;
+  }
+  @media(max-width:768px) {
+    .mp-dock { width: 210px; right: 8px; top: 58px; padding: 6px; }
+    .mp-chat-logs { height: 80px; }
+  }
+</style>
+
+<!-- IN-GAME CHAT & VOICE DOCK -->
+<div class="mp-dock" id="mpDock" style="display:none;">
+  <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800;color:#38bdf8;">
+    <span id="mpRoomTitle">🌐 ROOM: -</span>
+    <button class="gos-btn" type="button" id="mpMicBtn" style="padding:2px 6px;font-size:10px;">🎙️ Mic OFF</button>
+  </div>
+  <div class="mp-chat-logs" id="mpChatLogs">
+    <div style="color:#64748b;">Sistem: Terhubung ke server P2P.</div>
+  </div>
+  <div class="mp-chat-input-row">
+    <input type="text" id="mpChatInput" placeholder="Ketik pesan..." maxlength="60" />
+    <button class="gos-btn primary" type="button" id="mpSendChatBtn" style="padding:6px 10px;font-size:11px;">Kirim</button>
+  </div>
+</div>
+
+<!-- ONLINE LOBBY MODAL -->
+<div class="mp-overlay" id="mpLobbyModal" hidden>
+  <div class="mp-box">
+    <h3 style="margin:0 0 8px;color:#38bdf8;">🌐 MABAR ONLINE REAL-TIME</h3>
+    <p style="font-size:12px;color:#cbd5e1;margin:0 0 16px;line-height:1.5;">
+      Mainkan Pokeran Tongkrongan beda HP lewat internet. Buat Room baru atau masukkan kode temanmu!
+    </p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="pk-btn play" type="button" id="mpHostBtn">👑 BUAT ROOM BARU (HOST)</button>
+      <div style="display:flex;gap:6px;">
+        <input type="text" id="mpJoinInput" placeholder="Ketik Kode Room (cth: LEO-8821)" style="margin:0;background:#1e293b;color:#facc15;border:2px solid #475569;text-align:center;font-weight:800;font-size:13px;" />
+        <button class="pk-btn hint" type="button" id="mpJoinBtn" style="white-space:nowrap;">GABUNG</button>
+      </div>
+      <button class="pk-btn pass" type="button" id="mpCloseLobbyBtn" style="margin-top:4px;">✕ KEMBALI</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUDIO ELEMENT FOR WEBGL / WEBRTC VOICE CHAT -->
+<audio id="mpRemoteAudio" autoplay style="display:none;"></audio>
+
+<script>
+(() => {
+  "use strict";
+
+  // Tambahkan tombol Mabar Online ke action bar Pokeran
+  const actionContainer = document.querySelector(".pk-action-bar");
+  if (actionContainer && !document.getElementById("mpOpenLobbyBtn")) {
+    const onlineBtn = document.createElement("button");
+    onlineBtn.type = "button";
+    onlineBtn.className = "pk-btn hint";
+    onlineBtn.id = "mpOpenLobbyBtn";
+    onlineBtn.textContent = "🌐 Mabar Online (Beda HP)";
+    actionContainer.prepend(onlineBtn);
+
+    onlineBtn.addEventListener("click", () => {
+      document.getElementById("mpLobbyModal").hidden = false;
+    });
+  }
+
+  document.getElementById("mpCloseLobbyBtn").addEventListener("click", () => {
+    document.getElementById("mpLobbyModal").hidden = true;
+  });
+
+  // Multiplayer PeerJS & Game State Sync Controller
+  window.MPGame = {
+    peer: null,
+    conn: null,
+    localStream: null,
+    remoteCall: null,
+    isHost: false,
+    roomCode: "",
+    peersList: [],
+
+    logChat(sender, text) {
+      const logs = document.getElementById("mpChatLogs");
+      if (!logs) return;
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      logs.appendChild(div);
+      logs.scrollTop = logs.scrollHeight;
+    },
+
+    broadcast(data) {
+      if (this.conn && this.conn.open) {
+        this.conn.send(data);
+      }
+    }
+  };
+
+  // Chat send binding
+  document.getElementById("mpSendChatBtn").addEventListener("click", sendChatMsg);
+  document.getElementById("mpChatInput").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendChatMsg();
+  });
+
+  function sendChatMsg() {
+    const input = document.getElementById("mpChatInput");
+    const txt = input.value.trim();
+    if (!txt) return;
+    MPGame.logChat("Kamu", txt);
+    MPGame.broadcast({ type: "CHAT", text: txt });
+    input.value = "";
+  }
+
+  // Voice Mic Toggle (WebRTC)
+  let micActive = false;
+  document.getElementById("mpMicBtn").addEventListener("click", async () => {
+    const btn = document.getElementById("mpMicBtn");
+    if (!micActive) {
+      try {
+        MPGame.localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        micActive = true;
+        btn.textContent = "🎙️ Mic ON";
+        btn.style.background = "#22c55e";
+        btn.style.color = "#000";
+        if (MPGame.peer && MPGame.conn) {
+          const call = MPGame.peer.call(MPGame.conn.peer, MPGame.localStream);
+          handleCall(call);
+        }
+      } catch (err) {
+        alert("Gagal mengakses Mikrofon. Izinkan izin mic di browser!");
+      }
+    } else {
+      if (MPGame.localStream) {
+        MPGame.localStream.getTracks().forEach((t) => t.stop());
+      }
+      micActive = false;
+      btn.textContent = "🎙️ Mic OFF";
+      btn.style.background = "";
+      btn.style.color = "";
+    }
+  });
+
+  function handleCall(call) {
+    call.answer(MPGame.localStream);
+    call.on("stream", (remoteStream) => {
+      const audioEl = document.getElementById("mpRemoteAudio");
+      audioEl.srcObject = remoteStream;
+      audioEl.play().catch(() => {});
+    });
+  }
+
+  // HOST ROOM
+  document.getElementById("mpHostBtn").addEventListener("click", () => {
+    const code = "LEO-" + Math.floor(1000 + Math.random() * 9000);
+    MPGame.roomCode = code;
+    MPGame.isHost = true;
+    initPeer(code, true);
+  });
+
+  // JOIN ROOM
+  document.getElementById("mpJoinBtn").addEventListener("click", () => {
+    const code = document.getElementById("mpJoinInput").value.trim().toUpperCase();
+    if (!code) return alert("Masukkan kode room terlebih dahulu!");
+    MPGame.roomCode = code;
+    MPGame.isHost = false;
+    initPeer(code, false);
+  });
+
+  function initPeer(id, isHosting) {
+    document.getElementById("mpLobbyModal").hidden = true;
+    const fullId = "leovandyz-poker-" + id;
+    
+    if (MPGame.peer) MPGame.peer.destroy();
+    MPGame.peer = new Peer(fullId);
+
+    MPGame.peer.on("open", (assignedId) => {
+      document.getElementById("mpDock").style.display = "flex";
+      document.getElementById("mpRoomTitle").textContent = `🌐 ROOM: ${id}`;
+      if (isHosting) {
+        MPGame.logChat("Sistem", `Room [${id}] berhasil dibuat! Menunggu teman bergabung...`);
+      } else {
+        MPGame.logChat("Sistem", `Menghubungkan ke Room [${id}]...`);
+        const conn = MPGame.peer.connect("leovandyz-poker-" + id);
+        setupConnection(conn);
+      }
+    });
+
+    MPGame.peer.on("connection", (conn) => {
+      setupConnection(conn);
+      MPGame.logChat("Sistem", "Teman berhasil terhubung ke meja!");
+    });
+
+    MPGame.peer.on("call", (call) => {
+      if (micActive && MPGame.localStream) {
+        handleCall(call);
+      } else {
+        navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then((stream) => {
+          MPGame.localStream = stream;
+          handleCall(call);
+        }).catch(() => {});
+      }
+    });
+
+    MPGame.peer.on("error", (err) => {
+      alert("Koneksi P2P Gagal: " + err.type);
+      document.getElementById("mpLobbyModal").hidden = false;
+    });
+  }
+
+  function setupConnection(conn) {
+    MPGame.conn = conn;
+    conn.on("data", (data) => {
+      if (data.type === "CHAT") {
+        MPGame.logChat("Teman", data.text);
+      } else if (data.type === "SYNC_GAME") {
+        // Sinkronisasi status game antar perangkat
+        console.log("Game sync received", data);
+      }
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
