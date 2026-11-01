@@ -1748,6 +1748,27 @@
         flex-direction: column;
       }
     }
+
+
+    /* AM Finder tool */
+    .amfinder-card{background:var(--bg-elevated);border:var(--border-width) var(--border-style) var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:clamp(16px,3vw,28px);display:grid;gap:18px}
+    .amfinder-intro{color:var(--muted);line-height:1.65;max-width:720px}
+    .amfinder-form{display:flex;gap:10px;flex-wrap:wrap}
+    .amfinder-form input{flex:1;min-width:220px;background:var(--bg-subtle);color:var(--ink);border:1px solid var(--line-subtle);border-radius:var(--radius-md);padding:14px 15px;font:inherit}
+    .amfinder-submit{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:var(--radius-md);padding:13px 18px;background:var(--accent);color:var(--accent-fg);font:700 13px var(--font-sans);cursor:pointer;min-height:48px}
+    .amfinder-submit svg,.amfinder-result svg,.amfinder-title-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .amfinder-submit:disabled{opacity:.55;cursor:wait}
+    .amfinder-status{display:none;padding:12px 14px;border:1px solid var(--line-subtle);border-radius:var(--radius-md);color:var(--ink-secondary);line-height:1.5;overflow-wrap:anywhere}
+    .amfinder-status.show{display:block}.amfinder-status.error{border-color:var(--error-border);background:var(--error-bg);color:var(--error-ink)}
+    .amfinder-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:12px}
+    .amfinder-result{border:1px solid var(--line-subtle);border-radius:var(--radius-md);padding:15px;background:var(--bg-glass);display:grid;gap:10px;min-width:0}
+    .amfinder-result h3{font-size:14px;margin:0;overflow-wrap:anywhere}.amfinder-result p{font-size:12px;color:var(--muted);margin:0;line-height:1.5;overflow-wrap:anywhere}
+    .amfinder-result a{color:var(--accent);font-weight:700;font-size:12px;overflow-wrap:anywhere}.amfinder-result .amfinder-submit{width:100%;text-decoration:none}
+    .amfinder-title-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:var(--radius-md);background:var(--accent-soft);color:var(--accent)}
+    .amfinder-empty{padding:18px;border:1px dashed var(--line-subtle);border-radius:var(--radius-md);color:var(--muted);font-size:13px}
+    .amfinder-footnote{font-size:11px;color:var(--muted);line-height:1.5}
+
+  .nav-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
   </style>
 </head>
 <body>
@@ -1770,22 +1791,27 @@
           <div class="sidebar-group-label">WORKSPACE</div>
           <nav class="sidebar-nav" aria-label="Menu utama">
             <button class="sidebar-link active" type="button" data-view-target="all">
-              <span class="nav-icon">⊞</span>
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>
               <span>Dashboard Semua</span>
               <span class="nav-badge">HUB</span>
             </button>
             <button class="sidebar-link" type="button" data-view-target="reach">
-              <span class="nav-icon">⚡</span>
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-13h-7z"/></svg></span>
               <span>Reach CH</span>
               <span class="nav-badge">01</span>
             </button>
             <button class="sidebar-link" type="button" data-view-target="amprem">
-              <span class="nav-icon">✨</span>
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></svg></span>
               <span>AM Premium</span>
               <span class="nav-badge">02</span>
             </button>
+            <button class="sidebar-link" type="button" data-view-target="amfind">
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5M8 10.8h5.6M10.8 8v5.6"/></svg></span>
+              <span>Cari Preset AM</span>
+              <span class="nav-badge">03</span>
+            </button>
             <button class="sidebar-link" type="button" data-view-target="coming">
-              <span class="nav-icon">🛠️</span>
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 6a5 5 0 0 0-6 6L3 17l4 4 5-5a5 5 0 0 0 6-6l-3 3-4-4z"/></svg></span>
               <span>More to Come</span>
             </button>
           </nav>
@@ -1795,16 +1821,16 @@
           <div class="sidebar-group-label">SISTEM & KUSTOMISASI</div>
           <div class="sidebar-nav">
             <button class="sidebar-link" type="button" id="sidebarThemeBtn">
-              <span class="nav-icon">🎨</span>
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1-3.7 1.7 1.7 0 0 1 1-3.2H17a4 4 0 0 0 4-4c0-4-4-7.1-9-7.1Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11" cy="6.8" r="1"/><circle cx="16" cy="8.5" r="1"/></svg></span>
               <span>Tema Tampilan</span>
               <span class="nav-badge" id="sidebarActiveThemeBadge">Normal</span>
             </button>
             <button class="sidebar-link" type="button" id="sidebarAdminTrigger">
-              <span class="nav-icon">⚙</span>
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19 13.5 2 1.2-2 3.5-2.2-1.1a8 8 0 0 1-2 .9L14.5 20h-5l-.3-2a8 8 0 0 1-2-.9L5 18.2 3 14.7l2-1.2a8 8 0 0 1 0-2.4l-2-1.2L5 6.4l2.2 1.1a8 8 0 0 1 2-.9l.3-2h5l.3 2a8 8 0 0 1 2 .9L19 6.4l2 3.5-2 1.2a8 8 0 0 1 0 2.4Z"/></svg></span>
               <span>Panel Admin</span>
             </button>
             <a class="sidebar-link" href="https://about-van.vercel.app/" target="_blank" rel="noopener noreferrer">
-              <span class="nav-icon">↗</span>
+              <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
               <span>About Creator</span>
             </a>
           </div>
@@ -1842,8 +1868,9 @@
           <nav class="nav" aria-label="Navigasi cepat">
             <a href="#reach" data-view-target="reach">REACH CH ↘</a>
             <a href="#amprem" data-view-target="amprem">AM PREMIUM ↘</a>
+            <a href="#amfind" data-view-target="amfind">CARI PRESET AM ↘</a>
             <button class="topbar-btn theme-trigger-btn" id="openThemeModalBtn" type="button" aria-haspopup="dialog">
-              🎨 <span id="currentThemeLabel">Tema: Normal</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1-3.7 1.7 1.7 0 0 1 1-3.2H17a4 4 0 0 0 4-4c0-4-4-7.1-9-7.1Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11" cy="6.8" r="1"/><circle cx="16" cy="8.5" r="1"/></svg> <span id="currentThemeLabel">Tema: Normal</span>
             </button>
             <a href="https://about-van.vercel.app/" target="_blank" rel="noopener noreferrer">ABOUT ↗</a>
           </nav>
@@ -1861,7 +1888,7 @@
               <div class="hero-quick-actions">
                 <a class="hero-pill-btn" href="#reach" data-view-target="reach">⚡ Buka Reach CH</a>
                 <a class="hero-pill-btn secondary" href="#amprem" data-view-target="amprem">✨ Buka AM Premium</a>
-                <button class="hero-pill-btn secondary" type="button" id="heroThemeQuickBtn">🎨 Ganti Tema (8 Mode)</button>
+                <button class="hero-pill-btn secondary" type="button" id="heroThemeQuickBtn"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1-3.7 1.7 1.7 0 0 1 1-3.2H17a4 4 0 0 0 4-4c0-4-4-7.1-9-7.1Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11" cy="6.8" r="1"/><circle cx="16" cy="8.5" r="1"/></svg> Ganti Tema (8 Mode)</button>
               </div>
             </div>
 
@@ -1906,7 +1933,7 @@
 
               <div class="stamp-mid-row">
                 <div class="stamp-title">YOUR<br>TOOLS.</div>
-                <div class="stamp-emoji">✳️ 🛠️</div>
+                <div class="stamp-emoji" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M14 6a5 5 0 0 0-6 6L3 17l4 4 5-5a5 5 0 0 0 6-6l-3 3-4-4z"/></svg></div>
               </div>
               <div class="stamp-bottom">
                 <span>WHITE × DARK</span>
@@ -1941,7 +1968,7 @@
                 <strong id="metricThemeName">Normal Mode</strong>
                 <small>Klik untuk kustomisasi antarmuka</small>
               </div>
-              <div class="metric-icon">🎨</div>
+              <div class="metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1-3.7 1.7 1.7 0 0 1 1-3.2H17a4 4 0 0 0 4-4c0-4-4-7.1-9-7.1Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11" cy="6.8" r="1"/><circle cx="16" cy="8.5" r="1"/></svg></div>
             </button>
           </div>
 
@@ -2038,13 +2065,34 @@
             </section>
 
             <!-- ================= FITUR 3: MORE TO COME ================= -->
+            <!-- ================= FITUR 3: AM PRESET FINDER ================= -->
+            <section id="amfind" class="app-section" data-section-id="amfind">
+              <div class="section-head">
+                <h2>CARI PRESET AM<span class="section-dot-badge">.</span></h2>
+                <p>Temukan preset Alight Motion dari kata kunci atau pindai tautan video.</p>
+              </div>
+              <div class="amfinder-card">
+                <div style="display:flex;align-items:flex-start;gap:13px">
+                  <div class="amfinder-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5M8 10.8h5.6M10.8 8v5.6"/></svg></div>
+                  <div><h3 style="margin:0 0 6px;font-size:18px">AM Preset Finder</h3><p class="amfinder-intro" style="margin:0">Cari nama preset, kreator, atau kata kunci. Bisa juga tempel tautan video TikTok/YouTube untuk memeriksa tautan preset yang ditemukan pada deskripsi dan komentar publik.</p></div>
+                </div>
+                <form class="amfinder-form" id="amFinderForm">
+                  <input id="amFinderQuery" name="query" type="text" minlength="3" maxlength="500" placeholder="Contoh: jedag jedug, shake preset, atau link video..." autocomplete="off" required aria-label="Kata kunci atau tautan video">
+                  <button class="amfinder-submit" id="amFinderSubmit" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><span>CARI PRESET</span></button>
+                </form>
+                <div id="amFinderStatus" class="amfinder-status" role="status" aria-live="polite"></div>
+                <div id="amFinderResults" class="amfinder-results" aria-live="polite"><div class="amfinder-empty">Hasil pencarian akan tampil di sini. Gunakan kata kunci atau tempel tautan video.</div></div>
+                <p class="amfinder-footnote">Hasil bergantung pada layanan AM Finder dan tautan publik yang tersedia. Jangan masukkan kata sandi atau data pribadi. Tautan preset berasal dari sumber pihak ketiga; periksa sebelum membuka atau mengunduh.</p>
+              </div>
+            </section>
+
             <section aria-labelledby="comingTitle" class="app-section" data-section-id="coming">
               <div class="section-head">
                 <h2 id="comingTitle">MORE TO COME<span class="section-dot-badge">.</span></h2>
                 <p>IN DEVELOPMENT</p>
               </div>
               <div class="dev-card">
-                <div class="dev-icon">🛠️</div>
+                <div class="dev-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M14 6a5 5 0 0 0-6 6L3 17l4 4 5-5a5 5 0 0 0 6-6l-3 3-4-4z"/></svg></div>
                 <div>
                   <strong>FITUR LAIN MASIH TAHAP PENGEMBANGAN</strong>
                   <p>Fitur lainnya sedang dikembangkan dan akan hadir setelah siap. Stay tuned.</p>
@@ -2077,7 +2125,7 @@
       <span>AM Prem</span>
     </button>
     <button class="mobile-nav-btn" type="button" id="mobileThemeBtn">
-      <span>🎨</span>
+      <span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1-3.7 1.7 1.7 0 0 1 1-3.2H17a4 4 0 0 0 4-4c0-4-4-7.1-9-7.1Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11" cy="6.8" r="1"/><circle cx="16" cy="8.5" r="1"/></svg></span>
       <span>Tema</span>
     </button>
     <button class="mobile-nav-btn" type="button" id="mobileAdminBtn">
@@ -2347,6 +2395,107 @@
   });
 </script>
 
+<script>
+(() => {
+  "use strict";
+  const form = document.getElementById("amFinderForm");
+  if (!form) return;
+  const query = document.getElementById("amFinderQuery");
+  const submit = document.getElementById("amFinderSubmit");
+  const status = document.getElementById("amFinderStatus");
+  const results = document.getElementById("amFinderResults");
+  const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const isVideo = (value) => /(?:tiktok\.com|youtu\.be|youtube\.com)/i.test(value);
+  function setStatus(message, error = false) {
+    status.textContent = message;
+    status.className = "amfinder-status show" + (error ? " error" : "");
+  }
+  function link(url, label) {
+    if (!url || !/^https?:\/\//i.test(url)) return "";
+    return '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(label || url) + '</a>';
+  }
+  function renderVideoItems(items) {
+    results.innerHTML = "";
+    if (!items.length) {
+      results.innerHTML = '<div class="amfinder-empty">Tidak ada hasil yang cocok. Coba kata kunci lain.</div>';
+      return;
+    }
+    for (const item of items) {
+      const card = document.createElement("article");
+      card.className = "amfinder-result";
+      const title = item.handle || "Video preset";
+      const caption = item.snippet_caption || "Tidak ada deskripsi yang tersedia.";
+      card.innerHTML = '<h3>' + esc(title) + '</h3><p>' + esc(caption.slice(0, 220)) + '</p><p>' + (item.views != null ? 'Views: ' + esc(item.views) : 'Sumber video publik') + '</p>' +
+        '<div>' + link(item.url_video, "Buka video sumber") + '</div>' +
+        '<button class="amfinder-submit" type="button" data-scan-url="' + esc(item.url_video || "") + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><span>PINDAI PRESET VIDEO</span></button>';
+      results.appendChild(card);
+    }
+  }
+  function renderPresetData(data) {
+    results.innerHTML = "";
+    const presets = Array.isArray(data.preset) ? data.preset : [];
+    if (!presets.length) {
+      results.innerHTML = '<div class="amfinder-empty">' + esc(data.pesan || "Belum ditemukan tautan preset pada video ini.") + '</div>';
+      return;
+    }
+    for (const preset of presets) {
+      const card = document.createElement("article");
+      card.className = "amfinder-result";
+      card.innerHTML = '<h3>' + esc(preset.judul || ("Preset #" + (preset.no || ""))) + '</h3>' +
+        '<p>' + esc([preset.tipe, preset.ukuran_file, preset.rasio, preset.diperoleh_dari].filter(Boolean).join(" · ") || "Tautan preset ditemukan") + '</p>' +
+        '<div>' + link(preset.url, "BUKA TAUTAN PRESET") + '</div>' +
+        (preset.komentar ? '<p>' + esc(preset.komentar.slice(0, 240)) + '</p>' : '');
+      results.appendChild(card);
+    }
+    if (data.tautan_video) {
+      const source = document.createElement("p");
+      source.className = "amfinder-footnote";
+      source.innerHTML = "Sumber: " + link(data.tautan_video, "buka video");
+      results.prepend(source);
+    }
+  }
+  async function runSearch(value) {
+    submit.disabled = true;
+    submit.querySelector("span").textContent = "MEMINDAI...";
+    setStatus(isVideo(value) ? "Sedang memeriksa video dan mencari tautan preset..." : "Sedang mencari video yang cocok...");
+    results.innerHTML = '<div class="amfinder-empty">Menghubungi layanan AM Finder. Tunggu sebentar...</div>';
+    try {
+      const response = await fetch("/api/am-finder", {
+        method: "POST", headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({query:value}), cache:"no-store"
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || data.success === false && data.error) throw new Error(data.error || data.pesan || "Pencarian gagal.");
+      if (data.mode === "link_video") {
+        renderPresetData(data);
+        setStatus(data.success ? "Selesai. Ditemukan " + (data.preset || []).length + " tautan preset." : (data.pesan || "Pemindaian selesai."));
+      } else {
+        renderVideoItems(data.hasil_pencarian || []);
+        setStatus("Pencarian selesai: " + (data.total_hasil || 0) + " video ditemukan. Pilih PINDAI PRESET VIDEO untuk memeriksa video tertentu.");
+      }
+    } catch (error) {
+      results.innerHTML = '<div class="amfinder-empty">Layanan tidak berhasil memproses permintaan.</div>';
+      setStatus(error.message || "Terjadi kesalahan. Coba lagi nanti.", true);
+    } finally {
+      submit.disabled = false;
+      submit.querySelector("span").textContent = "CARI PRESET";
+    }
+  }
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const value = query.value.trim();
+    if (value.length < 3) { setStatus("Masukkan minimal 3 karakter atau tautan video.", true); query.focus(); return; }
+    runSearch(value);
+  });
+  results.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-scan-url]");
+    if (!button) return;
+    const url = button.getAttribute("data-scan-url");
+    if (url) { query.value = url; runSearch(url); }
+  });
+})();
+</script>
+
 <!-- ===== LEOVANDYZ ADMIN PANEL (PRESERVED MARKUP & LOGIC) ===== -->
 <button id="admin-open" type="button">⚙ ADMIN</button>
 
@@ -2604,6 +2753,7 @@
     "all": "Dashboard Semua Tool",
     "reach": "01 / Reach CH Executor",
     "amprem": "02 / AM Premium",
+    "amfind": "03 / Cari Preset AM",
     "coming": "In Development"
   };
 
