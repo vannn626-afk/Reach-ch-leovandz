@@ -1775,19 +1775,32 @@
 
   .nav-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
   
-    /* Premium entrance choreography: lightweight, accessible, and theme-safe. */
-    @keyframes lvPageReveal{from{opacity:0;transform:translateY(18px) scale(.99);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
-    @keyframes lvSoftGlow{0%,100%{box-shadow:var(--shadow)}50%{box-shadow:0 18px 55px color-mix(in srgb,var(--accent) 18%,transparent)}}
-    body.lv-entering .app-shell,body.lv-entering .mobile-bottom-nav{animation:lvPageReveal .85s cubic-bezier(.2,.75,.25,1) both}
-    body.lv-entering .app-shell{animation-delay:.06s}
-    body.lv-entering .mobile-bottom-nav{animation-delay:.24s}
-    .app-section,.hero-card,.metric-card,.amfinder-card,.dev-card,.theme-option-btn{animation:lvPageReveal .65s cubic-bezier(.2,.75,.25,1) both}
-    .app-section:nth-of-type(2){animation-delay:.07s}.app-section:nth-of-type(3){animation-delay:.13s}.app-section:nth-of-type(4){animation-delay:.19s}
-    .amfinder-result{animation:lvPageReveal .45s ease both}
-    .hero-pill-btn,.btn,.amfinder-submit,.mobile-nav-btn,.topbar-btn{transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}
-    .hero-pill-btn:hover,.btn:hover,.amfinder-submit:hover,.topbar-btn:hover{transform:translateY(-2px);filter:saturate(1.08)}
-    .metric-card:hover,.amfinder-card:hover{animation:lvSoftGlow 2.4s ease-in-out infinite}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}body.lv-entering .app-shell,body.lv-entering .mobile-bottom-nav{opacity:1;transform:none;filter:none}}
+    /* Lightweight pop-bounce motion: transform only, no opacity/blur/glow loops. */
+    @keyframes lvPopBounce {
+      0% { transform: translateY(14px) scale(.96); }
+      58% { transform: translateY(-5px) scale(1.015); }
+      78% { transform: translateY(2px) scale(.995); }
+      100% { transform: translateY(0) scale(1); }
+    }
+    body.lv-entering .app-shell { animation: lvPopBounce .48s cubic-bezier(.2,.8,.25,1) both; }
+    body.lv-entering .mobile-bottom-nav { animation: lvPopBounce .42s cubic-bezier(.2,.8,.25,1) .08s both; }
+    .app-section,.hero-card,.metric-card,.amfinder-card,.dev-card,.theme-option-btn {
+      animation: lvPopBounce .42s cubic-bezier(.2,.8,.25,1) both;
+    }
+    .app-section:nth-of-type(2){animation-delay:.035s}
+    .app-section:nth-of-type(3){animation-delay:.07s}
+    .app-section:nth-of-type(4){animation-delay:.105s}
+    .amfinder-result { animation: lvPopBounce .34s cubic-bezier(.2,.8,.25,1) both; }
+    .hero-pill-btn,.btn,.amfinder-submit,.mobile-nav-btn,.topbar-btn {
+      transition: transform .16s cubic-bezier(.2,.8,.25,1), box-shadow .16s ease;
+    }
+    .hero-pill-btn:hover,.btn:hover,.amfinder-submit:hover,.topbar-btn:hover { transform: translateY(-2px); }
+    .hero-pill-btn:active,.btn:active,.amfinder-submit:active,.mobile-nav-btn:active,.topbar-btn:active {
+      transform: translateY(2px) scale(.98);
+    }
+    @media(prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+    }
 
 </style>
 </head>
@@ -2094,14 +2107,14 @@
               <div class="amfinder-card">
                 <div style="display:flex;align-items:flex-start;gap:13px">
                   <div class="amfinder-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5M8 10.8h5.6M10.8 8v5.6"/></svg></div>
-                  <div><h3 style="margin:0 0 6px;font-size:18px">AM Preset Finder</h3><p class="amfinder-intro" style="margin:0">Cari nama preset, kreator, atau kata kunci. Bisa juga tempel tautan video TikTok/YouTube untuk memeriksa tautan preset yang ditemukan pada deskripsi dan komentar publik.</p></div>
+                  <div><h3 style="margin:0 0 6px;font-size:18px">AM Preset Finder</h3><p class="amfinder-intro" style="margin:0">Tempel tautan video TikTok untuk memeriksa tautan preset yang ditemukan pada deskripsi dan komentar publik.</p></div>
                 </div>
                 <form class="amfinder-form" id="amFinderForm">
-                  <input id="amFinderQuery" name="query" type="text" minlength="3" maxlength="500" placeholder="Contoh: jedag jedug, shake preset, atau link video..." autocomplete="off" required aria-label="Kata kunci atau tautan video">
-                  <button class="amfinder-submit" id="amFinderSubmit" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><span>CARI PRESET</span></button>
+                  <input id="amFinderQuery" name="query" type="text" minlength="10" maxlength="1000" inputmode="url" placeholder="Tempel link video TikTok di sini..." autocomplete="url" required aria-label="Tautan video TikTok">
+                  <button class="amfinder-submit" id="amFinderSubmit" type="submit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><span>PINDAI LINK</span></button>
                 </form>
                 <div id="amFinderStatus" class="amfinder-status" role="status" aria-live="polite"></div>
-                <div id="amFinderResults" class="amfinder-results" aria-live="polite"><div class="amfinder-empty">Hasil pencarian akan tampil di sini. Gunakan kata kunci atau tempel tautan video.</div></div>
+                <div id="amFinderResults" class="amfinder-results" aria-live="polite"><div class="amfinder-empty">Hasil pemindaian akan tampil di sini setelah kamu menempel link video TikTok.</div></div>
                 <p class="amfinder-footnote">Hasil bergantung pada layanan AM Finder dan tautan publik yang tersedia. Jangan masukkan kata sandi atau data pribadi. Tautan preset berasal dari sumber pihak ketiga; periksa sebelum membuka atau mengunduh.</p>
               </div>
             </section>
@@ -2425,93 +2438,81 @@
   const status = document.getElementById("amFinderStatus");
   const results = document.getElementById("amFinderResults");
   const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const isVideo = (value) => /(?:tiktok\.com|youtu\.be|youtube\.com)/i.test(value);
+  const isTikTokVideo = (value) => {
+    try {
+      const u = new URL(/^https?:\/\//i.test(value) ? value : "https://" + value);
+      return (u.hostname === "tiktok.com" || u.hostname.endsWith(".tiktok.com")) &&
+        (/\/@[^/]+\/video\/\d+/.test(u.pathname) || /\/t\//.test(u.pathname));
+    } catch (_) { return false; }
+  };
   function setStatus(message, error = false) {
     status.textContent = message;
     status.className = "amfinder-status show" + (error ? " error" : "");
   }
-  function link(url, label) {
+  function safeLink(url, label) {
     if (!url || !/^https?:\/\//i.test(url)) return "";
     return '<a href="' + esc(url) + '" target="_blank" rel="noopener noreferrer">' + esc(label || url) + '</a>';
-  }
-  function renderVideoItems(items) {
-    results.innerHTML = "";
-    if (!items.length) {
-      results.innerHTML = '<div class="amfinder-empty">Tidak ada hasil yang cocok. Coba kata kunci lain.</div>';
-      return;
-    }
-    for (const item of items) {
-      const card = document.createElement("article");
-      card.className = "amfinder-result";
-      const title = item.handle || "Video preset";
-      const caption = item.snippet_caption || "Tidak ada deskripsi yang tersedia.";
-      card.innerHTML = '<h3>' + esc(title) + '</h3><p>' + esc(caption.slice(0, 220)) + '</p><p>' + (item.views != null ? 'Views: ' + esc(item.views) : 'Sumber video publik') + '</p>' +
-        '<div>' + link(item.url_video, "Buka video sumber") + '</div>' +
-        '<button class="amfinder-submit" type="button" data-scan-url="' + esc(item.url_video || "") + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><span>PINDAI PRESET VIDEO</span></button>';
-      results.appendChild(card);
-    }
   }
   function renderPresetData(data) {
     results.innerHTML = "";
     const presets = Array.isArray(data.preset) ? data.preset : [];
     if (!presets.length) {
-      results.innerHTML = '<div class="amfinder-empty">' + esc(data.pesan || "Belum ditemukan tautan preset pada video ini.") + '</div>';
-      return;
-    }
-    for (const preset of presets) {
-      const card = document.createElement("article");
-      card.className = "amfinder-result";
-      card.innerHTML = '<h3>' + esc(preset.judul || ("Preset #" + (preset.no || ""))) + '</h3>' +
-        '<p>' + esc([preset.tipe, preset.ukuran_file, preset.rasio, preset.diperoleh_dari].filter(Boolean).join(" · ") || "Tautan preset ditemukan") + '</p>' +
-        '<div>' + link(preset.url, "BUKA TAUTAN PRESET") + '</div>' +
-        (preset.komentar ? '<p>' + esc(preset.komentar.slice(0, 240)) + '</p>' : '');
-      results.appendChild(card);
+      results.innerHTML = '<div class="amfinder-empty">' + esc(data.pesan || "Tidak ditemukan tautan preset pada deskripsi atau komentar publik video ini.") + '</div>';
+    } else {
+      for (const preset of presets) {
+        const card = document.createElement("article");
+        card.className = "amfinder-result";
+        card.innerHTML = '<h3>' + esc(preset.judul || ("Preset #" + (preset.no || ""))) + '</h3>' +
+          '<p>' + esc([preset.tipe, preset.ukuran_file, preset.rasio, preset.diperoleh_dari].filter(Boolean).join(" · ") || "Tautan preset ditemukan") + '</p>' +
+          '<div>' + safeLink(preset.url, "BUKA TAUTAN PRESET") + '</div>' +
+          (preset.komentar ? '<p>' + esc(preset.komentar.slice(0, 240)) + '</p>' : '');
+        results.appendChild(card);
+      }
     }
     if (data.tautan_video) {
       const source = document.createElement("p");
       source.className = "amfinder-footnote";
-      source.innerHTML = "Sumber: " + link(data.tautan_video, "buka video");
+      source.innerHTML = "Video sumber: " + safeLink(data.tautan_video, "buka video TikTok");
       results.prepend(source);
     }
   }
-  async function runSearch(value) {
+  async function scan(value) {
     submit.disabled = true;
     submit.querySelector("span").textContent = "MEMINDAI...";
-    setStatus(isVideo(value) ? "Sedang memeriksa video dan mencari tautan preset..." : "Sedang mencari video yang cocok...");
-    results.innerHTML = '<div class="amfinder-empty">Menghubungi layanan AM Finder. Tunggu sebentar...</div>';
+    setStatus("Sedang memindai deskripsi dan komentar publik video TikTok...");
+    results.innerHTML = '<div class="amfinder-empty">Menghubungi layanan pemindai. Tunggu sebentar...</div>';
     try {
       const response = await fetch("/api/am-finder", {
-        method: "POST", headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({query:value}), cache:"no-store"
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({query:value}),
+        cache:"no-store"
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok || data.success === false && data.error) throw new Error(data.error || data.pesan || "Pencarian gagal.");
-      if (data.mode === "link_video") {
-        renderPresetData(data);
-        setStatus(data.success ? "Selesai. Ditemukan " + (data.preset || []).length + " tautan preset." : (data.pesan || "Pemindaian selesai."));
-      } else {
-        renderVideoItems(data.hasil_pencarian || []);
-        setStatus("Pencarian selesai: " + (data.total_hasil || 0) + " video ditemukan. Pilih PINDAI PRESET VIDEO untuk memeriksa video tertentu.");
+      if (!response.ok || (data.success === false && data.error)) {
+        throw new Error(data.error || data.pesan || "Pemindaian gagal.");
       }
+      renderPresetData(data);
+      setStatus(data.success
+        ? "Selesai. Ditemukan " + (data.preset || []).length + " tautan preset."
+        : (data.pesan || "Pemindaian selesai, tidak ada tautan preset yang ditemukan."));
     } catch (error) {
       results.innerHTML = '<div class="amfinder-empty">Layanan tidak berhasil memproses permintaan.</div>';
       setStatus(error.message || "Terjadi kesalahan. Coba lagi nanti.", true);
     } finally {
       submit.disabled = false;
-      submit.querySelector("span").textContent = "CARI PRESET";
+      submit.querySelector("span").textContent = "PINDAI LINK";
     }
   }
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const value = query.value.trim();
-    if (value.length < 3) { setStatus("Masukkan minimal 3 karakter atau tautan video.", true); query.focus(); return; }
-    runSearch(value);
-  });
-  results.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-scan-url]");
-    if (!button) return;
-    const url = button.getAttribute("data-scan-url");
-    if (url) { query.value = url; runSearch(url); }
+    if (!isTikTokVideo(value)) {
+      setStatus("Tempel tautan video TikTok yang valid, bukan kata kunci atau link profil.", true);
+      query.focus();
+      return;
+    }
+    scan(value);
   });
 })();
 </script>
