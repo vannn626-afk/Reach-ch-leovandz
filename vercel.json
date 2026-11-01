@@ -1,5 +1,10 @@
 {
   "functions": {
-    "api/react.js": { "maxDuration": 30 }
+    "api/react.js": {
+      "maxDuration": 30
+    },
+    "api/am-finder.js": {
+      "maxDuration": 60
+    }
   }
 }
