@@ -10,6 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    .ui-icon{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.18em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+    .mobile-nav-btn .ui-icon{width:21px;height:21px}
+    .hero-pill-btn .ui-icon{margin-right:7px}
+    #admin-open .ui-icon{width:16px;height:16px;margin-right:5px}
+
     /* ==========================================================================
        1. DESIGN TOKENS & 8-THEME ARCHITECTURE
        ========================================================================== */
@@ -1769,7 +1774,22 @@
     .amfinder-footnote{font-size:11px;color:var(--muted);line-height:1.5}
 
   .nav-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
-  </style>
+  
+    /* Premium entrance choreography: lightweight, accessible, and theme-safe. */
+    @keyframes lvPageReveal{from{opacity:0;transform:translateY(18px) scale(.99);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+    @keyframes lvSoftGlow{0%,100%{box-shadow:var(--shadow)}50%{box-shadow:0 18px 55px color-mix(in srgb,var(--accent) 18%,transparent)}}
+    body.lv-entering .app-shell,body.lv-entering .mobile-bottom-nav{animation:lvPageReveal .85s cubic-bezier(.2,.75,.25,1) both}
+    body.lv-entering .app-shell{animation-delay:.06s}
+    body.lv-entering .mobile-bottom-nav{animation-delay:.24s}
+    .app-section,.hero-card,.metric-card,.amfinder-card,.dev-card,.theme-option-btn{animation:lvPageReveal .65s cubic-bezier(.2,.75,.25,1) both}
+    .app-section:nth-of-type(2){animation-delay:.07s}.app-section:nth-of-type(3){animation-delay:.13s}.app-section:nth-of-type(4){animation-delay:.19s}
+    .amfinder-result{animation:lvPageReveal .45s ease both}
+    .hero-pill-btn,.btn,.amfinder-submit,.mobile-nav-btn,.topbar-btn{transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}
+    .hero-pill-btn:hover,.btn:hover,.amfinder-submit:hover,.topbar-btn:hover{transform:translateY(-2px);filter:saturate(1.08)}
+    .metric-card:hover,.amfinder-card:hover{animation:lvSoftGlow 2.4s ease-in-out infinite}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}body.lv-entering .app-shell,body.lv-entering .mobile-bottom-nav{opacity:1;transform:none;filter:none}}
+
+</style>
 </head>
 <body>
   <div class="app-shell" id="appShell">
@@ -1886,8 +1906,8 @@
                 <p>Kumpulan tool praktis buat kebutuhan digital klean. Reaction Channel, AM Premium, dan lainnya.</p>
               </div>
               <div class="hero-quick-actions">
-                <a class="hero-pill-btn" href="#reach" data-view-target="reach">⚡ Buka Reach CH</a>
-                <a class="hero-pill-btn secondary" href="#amprem" data-view-target="amprem">✨ Buka AM Premium</a>
+                <a class="hero-pill-btn" href="#reach" data-view-target="reach"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg> Buka Reach CH</a>
+                <a class="hero-pill-btn secondary" href="#amprem" data-view-target="amprem"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg> Buka AM Premium</a>
                 <button class="hero-pill-btn secondary" type="button" id="heroThemeQuickBtn"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1-3.7 1.7 1.7 0 0 1 1-3.2H17a4 4 0 0 0 4-4c0-4-4-7.1-9-7.1Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11" cy="6.8" r="1"/><circle cx="16" cy="8.5" r="1"/></svg> Ganti Tema (8 Mode)</button>
               </div>
             </div>
@@ -1950,7 +1970,7 @@
                 <strong>Reach CH Executor</strong>
                 <small>Auto multi-emoji reaction channel</small>
               </div>
-              <div class="metric-icon">⚡</div>
+              <div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg></div>
             </button>
 
             <button class="metric-card" type="button" data-view-target="amprem">
@@ -1959,7 +1979,7 @@
                 <strong>AM Premium</strong>
                 <small>Aktivasi via email & magic link</small>
               </div>
-              <div class="metric-icon">✨</div>
+              <div class="metric-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></div>
             </button>
 
             <button class="metric-card" type="button" id="metricThemeCard">
@@ -2012,11 +2032,11 @@
                   <input id="emojis" type="text" placeholder="Contoh: 🔥, ❤️, 🚀" autocomplete="off">
                   <p class="helper">Boleh satu atau beberapa emoji. Pisahkan setiap emoji dengan koma.</p>
                   <div class="emoji-examples">
-                    <button class="chip" type="button" data-emoji="🔥">🔥 Fire</button>
-                    <button class="chip" type="button" data-emoji="❤️">❤️ Love</button>
-                    <button class="chip" type="button" data-emoji="👍">👍 Like</button>
-                    <button class="chip" type="button" data-emoji="🚀">🚀 Rocket</button>
-                    <button class="chip" type="button" data-emoji="😂">😂 LOL</button>
+                    <button class="chip" type="button" data-emoji="🔥"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22c4 0 7-3 7-7 0-3-2-5-4-7 0 3-1 4-2 5 0-5-3-8-5-10 0 5-3 7-3 12 0 4 3 7 7 7Z"/></svg> Fire</button>
+                    <button class="chip" type="button" data-emoji="❤️"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg> Love</button>
+                    <button class="chip" type="button" data-emoji="👍"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10h4Zm0 0 4-7c2 0 3 2 2 4l-1 3h6a2 2 0 0 1 2 2l-2 7a2 2 0 0 1-2 2H7"/></svg> Like</button>
+                    <button class="chip" type="button" data-emoji="🚀"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15c-1.5 1-2 4-2 4s3-.5 4-2M9 13l-2-2c2-4 6-7 12-8 0 6-4 10-8 12l-2-2ZM9 13l-2 5 5-2M14 7h.01"/></svg> Rocket</button>
+                    <button class="chip" type="button" data-emoji="😂"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 3 4 3 4-3 4-3M8.5 9h.01M15.5 9h.01"/></svg> LOL</button>
                   </div>
                 </div>
 
@@ -2057,7 +2077,7 @@
                     <textarea id="amLink" rows="3" placeholder="https://alightcreative.com/auth/..."></textarea>
                     <p class="helper">Copy link dari email verifikasi, lalu paste di sini.</p>
                   </div>
-                  <button class="btn" id="amExecBtn" type="button">🚀 EKSEKUSI CUYY</button>
+                  <button class="btn" id="amExecBtn" type="button"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15c-1.5 1-2 4-2 4s3-.5 4-2M9 13l-2-2c2-4 6-7 12-8 0 6-4 10-8 12l-2-2ZM9 13l-2 5 5-2M14 7h.01"/></svg> EKSEKUSI CUYY</button>
                 </div>
 
                 <div class="result" id="amResult" role="status" aria-live="polite"></div>
@@ -2113,15 +2133,15 @@
   <!-- ================= MOBILE BOTTOM NAVIGATION ================= -->
   <nav class="mobile-bottom-nav" aria-label="Navigasi bawah seluler">
     <button class="mobile-nav-btn active" type="button" data-view-target="all">
-      <span>⊞</span>
+      <span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>
       <span>Home</span>
     </button>
     <button class="mobile-nav-btn" type="button" data-view-target="reach">
-      <span>⚡</span>
+      <span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg></span>
       <span>Reach CH</span>
     </button>
     <button class="mobile-nav-btn" type="button" data-view-target="amprem">
-      <span>✨</span>
+      <span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg></span>
       <span>AM Prem</span>
     </button>
     <button class="mobile-nav-btn" type="button" id="mobileThemeBtn">
@@ -2129,7 +2149,7 @@
       <span>Tema</span>
     </button>
     <button class="mobile-nav-btn" type="button" id="mobileAdminBtn">
-      <span>⚙</span>
+      <span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.8 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.8-1l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.8-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.8 1l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1 0 2Z"/></svg></span>
       <span>Admin</span>
     </button>
   </nav>
@@ -2296,7 +2316,7 @@
     if (savedEmail) {
       amEmail.value = savedEmail;
       amStep2.style.display = 'block';
-      amStatusKirim.innerText = "✅ Sesi email tersimpan. Silakan paste link verifikasi.";
+      amStatusKirim.innerText = "Sesi email tersimpan. Silakan paste link verifikasi.";
       amSendBtn.textContent = 'GANTI EMAIL';
       amSendBtn.style.opacity = '0.7';
     }
@@ -2313,7 +2333,7 @@
     amSendBtn.disabled = true;
     amSendBtn.textContent = 'MENGIRIM...';
     amResult.className = 'result show';
-    amResult.innerHTML = '<strong>⏳ MENGIRIM LINK...</strong>';
+    amResult.innerHTML = '<strong><span class="spinner" aria-hidden="true"></span> MENGIRIM LINK...</strong>';
 
     try {
       const res = await fetch('/api/send-link', { 
@@ -2331,7 +2351,7 @@
         localStorage.setItem('am_email', email);
         
         amResult.className = 'result';
-        amStatusKirim.innerText = "✅ Link berhasil dikirim. Cek inbox/spam.";
+        amStatusKirim.innerText = "Link berhasil dikirim. Cek inbox/spam.";
         amStep2.style.display = 'block';
         amSendBtn.textContent = 'LINK TERKIRIM';
       } else {
@@ -2360,7 +2380,7 @@
     amExecBtn.disabled = true;
     amExecBtn.textContent = 'MEMPROSES...';
     amResult.className = 'result show success';
-    amResult.innerHTML = '<strong>⏳ MEMPROSES PREMIUM...</strong>';
+    amResult.innerHTML = '<strong><span class="spinner" aria-hidden="true"></span> MEMPROSES PREMIUM...</strong>';
 
     try {
       const res = await fetch('/api/verify', { 
@@ -2496,8 +2516,23 @@
 })();
 </script>
 
+<script>
+(() => {
+  document.body.classList.add("lv-entering");
+  const finish = () => document.body.classList.remove("lv-entering");
+  window.addEventListener("load", () => window.setTimeout(finish, 1100), { once: true });
+  window.setTimeout(finish, 1800);
+  if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("lv-visible"); observer.unobserve(entry.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".app-section, .hero-card, .metric-card, .amfinder-card, .dev-card").forEach((el) => observer.observe(el));
+  }
+})();
+</script>
+
 <!-- ===== LEOVANDYZ ADMIN PANEL (PRESERVED MARKUP & LOGIC) ===== -->
-<button id="admin-open" type="button">⚙ ADMIN</button>
+<button id="admin-open" type="button"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a8 8 0 0 0 0-6l1.4-1.1-1.4-2.4-1.7.7a8 8 0 0 0-1.8-1L15.6 3h-2.8l-.3 2.2a8 8 0 0 0-1.8 1L9 5.5 7.6 7.9 9 9a8 8 0 0 0 0 6l-1.4 1.1L9 18.5l1.7-.7a8 8 0 0 0 1.8 1l.3 2.2h2.8l.3-2.2a8 8 0 0 0 1.8-1l1.7.7 1.4-2.4z"/></svg> ADMIN</button>
 
 <section id="admin-panel" hidden>
   <div class="admin-card">
@@ -2597,8 +2632,8 @@
     paused = Boolean(data.paused);
 
     $("admin-status").textContent = paused
-      ? "⛔ TOOLS REACT TUTUP DULU AKHH"
-      : "✅ React Tools sedang dibuka";
+      ? "TOOLS REACT TUTUP DULU AKHH"
+      : "React Tools sedang dibuka";
 
     $("admin-toggle").textContent = paused
       ? "Buka React Tools"
