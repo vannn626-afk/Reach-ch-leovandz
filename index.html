@@ -2441,8 +2441,11 @@
   const isTikTokVideo = (value) => {
     try {
       const u = new URL(/^https?:\/\//i.test(value) ? value : "https://" + value);
-      return (u.hostname === "tiktok.com" || u.hostname.endsWith(".tiktok.com")) &&
-        (/\/@[^/]+\/video\/\d+/.test(u.pathname) || /\/t\//.test(u.pathname));
+      const hostOK = u.hostname === "tiktok.com" || u.hostname.endsWith(".tiktok.com");
+      const longVideo = /\/@[^/]+\/video\/\d+/.test(u.pathname);
+      const shortShare = u.hostname === "vt.tiktok.com" &&
+        /^\/[A-Za-z0-9_-]{5,}\/?$/.test(u.pathname);
+      return hostOK && (longVideo || /\/t\//.test(u.pathname) || shortShare);
     } catch (_) { return false; }
   };
   function setStatus(message, error = false) {
